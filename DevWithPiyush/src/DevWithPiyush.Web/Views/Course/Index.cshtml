@@ -1,0 +1,74 @@
+@model CourseListViewModel
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title animate-slide-up">Training Programs</h1>
+        <p class="page-subtitle animate-slide-up" style="animation-delay: 0.2s">Master modern technologies with production-level training</p>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <!-- Search & Filter -->
+        <div class="row mb-5 scroll-reveal">
+            <div class="col-md-8">
+                <form method="get" class="d-flex gap-3">
+                    <input type="text" name="search" value="@Model.SearchTerm" class="form-control-custom flex-grow-1"
+                           placeholder="Search courses..." />
+                    <select name="level" class="form-control-custom" style="max-width: 200px;">
+                        <option value="">All Levels</option>
+                        <option value="Beginner" selected="@(Model.LevelFilter == "Beginner")">Beginner</option>
+                        <option value="Intermediate" selected="@(Model.LevelFilter == "Intermediate")">Intermediate</option>
+                        <option value="Advanced" selected="@(Model.LevelFilter == "Advanced")">Advanced</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary-custom">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Course Grid -->
+        <div class="row g-4">
+            @if (!Model.Courses.Any())
+            {
+                <div class="col-12 text-center py-5">
+                    <i class="bi bi-search" style="font-size: 3rem; color: var(--text-muted);"></i>
+                    <h4 class="mt-3 text-muted">No courses found</h4>
+                    <p class="text-muted">Try adjusting your search or filter criteria.</p>
+                </div>
+            }
+            @foreach (var course in Model.Courses)
+            {
+                <div class="col-lg-4 col-md-6 scroll-reveal">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <span class="course-level-badge @course.Level.ToString().ToLower()">@course.Level</span>
+                            <i class="bi bi-play-circle course-play-icon"></i>
+                        </div>
+                        <div class="course-body">
+                            <h5 class="course-title">@course.Title</h5>
+                            <p class="course-desc">@course.ShortDescription</p>
+                            <div class="course-meta">
+                                <span><i class="bi bi-clock"></i> @course.DurationHours hrs</span>
+                                <span><i class="bi bi-people"></i> @course.EnrollmentCount enrolled</span>
+                            </div>
+                            <div class="course-footer">
+                                <span class="course-price">
+                                    @(course.Price == 0 ? "Free" : "₹" + course.Price.ToString("N0"))
+                                </span>
+                                <a asp-action="Details" asp-route-slug="@course.Slug"
+                                   class="btn btn-sm btn-outline-custom">
+                                    View Details <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DevWithPiyush.Application/DevWithPiyush.Application.csproj" />
+    <Project Path="src/DevWithPiyush.Domain/DevWithPiyush.Domain.csproj" />
+    <Project Path="src/DevWithPiyush.Infrastructure/DevWithPiyush.Infrastructure.csproj" />
+    <Project Path="src/DevWithPiyush.Web/DevWithPiyush.Web.csproj" />
+  </Folder>
+</Solution>

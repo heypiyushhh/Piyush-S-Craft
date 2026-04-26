@@ -1,0 +1,81 @@
+@model IEnumerable<CourseDto>
+@{
+    ViewData["Title"] = "Manage Courses";
+    ViewData["AdminPage"] = true;
+}
+
+<section class="page-header">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="page-title animate-slide-up">Manage Courses</h1>
+            </div>
+            <a asp-action="CreateCourse" class="btn btn-primary-custom animate-fade-in">
+                <i class="bi bi-plus-lg me-1"></i> New Course
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="card-custom">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Level</th>
+                            <th>Duration</th>
+                            <th>Price</th>
+                            <th>Published</th>
+                            <th>Enrollments</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var course in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <strong>@course.Title</strong>
+                                    <br /><small class="text-muted">/@course.Slug</small>
+                                </td>
+                                <td><span class="course-level-badge @course.Level.ToString().ToLower() small">@course.Level</span></td>
+                                <td>@course.DurationHours hrs</td>
+                                <td>@(course.Price == 0 ? "Free" : "₹" + course.Price.ToString("N0"))</td>
+                                <td>
+                                    @if (course.IsPublished)
+                                    {
+                                        <span class="badge bg-success">Yes</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Draft</span>
+                                    }
+                                </td>
+                                <td>@course.EnrollmentCount</td>
+                                <td>
+                                    <div class="d-flex gap-1">
+                                        <a asp-action="EditCourse" asp-route-id="@course.Id"
+                                           class="btn btn-sm btn-outline-custom">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form asp-action="DeleteCourse" method="post"
+                                              onsubmit="return confirm('Are you sure you want to delete this course?');">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@course.Id" />
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

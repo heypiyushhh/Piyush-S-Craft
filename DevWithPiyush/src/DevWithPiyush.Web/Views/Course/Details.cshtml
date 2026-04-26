@@ -1,0 +1,119 @@
+@model CourseDetailViewModel
+@{
+    ViewData["Title"] = Model.Course.Title;
+}
+
+<section class="page-header">
+    <div class="container">
+        <nav aria-label="breadcrumb" class="animate-fade-in">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Course" asp-action="Index">Courses</a></li>
+                <li class="breadcrumb-item active">@Model.Course.Title</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<section class="section-padding" style="padding-top: 1rem;">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Course Info -->
+            <div class="col-lg-8">
+                <div class="animate-slide-up">
+                    <span class="course-level-badge @Model.Course.Level.ToString().ToLower() mb-3 d-inline-block">
+                        @Model.Course.Level
+                    </span>
+                    <h1 class="mb-3" style="font-size: 2.2rem; font-weight: 800;">@Model.Course.Title</h1>
+                    <p class="lead text-muted mb-4">@Model.Course.ShortDescription</p>
+
+                    <div class="d-flex gap-4 mb-4 flex-wrap">
+                        <div class="course-detail-stat">
+                            <i class="bi bi-clock"></i>
+                            <div>
+                                <span class="stat-val">@Model.Course.DurationHours hours</span>
+                                <span class="stat-lbl">Duration</span>
+                            </div>
+                        </div>
+                        <div class="course-detail-stat">
+                            <i class="bi bi-bar-chart"></i>
+                            <div>
+                                <span class="stat-val">@Model.Course.Level</span>
+                                <span class="stat-lbl">Difficulty</span>
+                            </div>
+                        </div>
+                        <div class="course-detail-stat">
+                            <i class="bi bi-people"></i>
+                            <div>
+                                <span class="stat-val">@Model.Course.EnrollmentCount</span>
+                                <span class="stat-lbl">Enrolled</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-custom">
+                        <h4 class="mb-3">About This Course</h4>
+                        <p style="line-height: 1.8;">@Model.Course.Description</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="card-custom sticky-top" style="top: 100px;">
+                    <div class="course-image mb-4" style="border-radius: 8px; height: 180px;">
+                        <i class="bi bi-play-circle course-play-icon"></i>
+                    </div>
+
+                    <div class="text-center mb-4">
+                        <span class="course-detail-price">
+                            @(Model.Course.Price == 0 ? "Free" : "₹" + Model.Course.Price.ToString("N0"))
+                        </span>
+                    </div>
+
+                    @if (Model.IsEnrolled)
+                    {
+                        <div class="text-center">
+                            <span class="badge bg-success fs-6 mb-3 p-2">
+                                <i class="bi bi-check-circle me-1"></i> Already Enrolled
+                            </span>
+                            <a asp-controller="Student" asp-action="Dashboard" class="btn btn-primary-custom w-100">
+                                Go to Dashboard
+                            </a>
+                        </div>
+                    }
+                    else if (Model.IsAuthenticated)
+                    {
+                        <form asp-controller="Course" asp-action="Enroll" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="courseId" value="@Model.Course.Id" />
+                            <button type="submit" class="btn btn-primary-custom btn-lg w-100">
+                                Enroll Now <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-primary-custom btn-lg w-100">
+                            Login to Enroll <i class="bi bi-arrow-right"></i>
+                        </a>
+                    }
+
+                    <div class="mt-4">
+                        <div class="d-flex justify-content-between text-muted small mb-2">
+                            <span><i class="bi bi-award me-1"></i> Certificate</span>
+                            <span>Yes</span>
+                        </div>
+                        <div class="d-flex justify-content-between text-muted small mb-2">
+                            <span><i class="bi bi-infinity me-1"></i> Lifetime Access</span>
+                            <span>Yes</span>
+                        </div>
+                        <div class="d-flex justify-content-between text-muted small">
+                            <span><i class="bi bi-translate me-1"></i> Language</span>
+                            <span>English + Hindi</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

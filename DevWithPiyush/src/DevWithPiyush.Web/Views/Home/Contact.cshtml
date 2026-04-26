@@ -1,0 +1,66 @@
+@model ContactQueryDto
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title animate-slide-up">Get in Touch</h1>
+        <p class="page-subtitle animate-slide-up" style="animation-delay: 0.2s">Have a question or want to discuss a training opportunity? I'd love to hear from you.</p>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card-custom">
+                    <form asp-action="Contact" method="post">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-group-custom">
+                                    <label asp-for="Name" class="form-label-custom">Your Name</label>
+                                    <input asp-for="Name" class="form-control-custom" placeholder="John Doe" />
+                                    <span asp-validation-for="Name" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group-custom">
+                                    <label asp-for="Email" class="form-label-custom">Email Address</label>
+                                    <input asp-for="Email" class="form-control-custom" placeholder="john@example.com" />
+                                    <span asp-validation-for="Email" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group-custom">
+                                    <label asp-for="Subject" class="form-label-custom">Subject</label>
+                                    <input asp-for="Subject" class="form-control-custom" placeholder="What's this about?" />
+                                    <span asp-validation-for="Subject" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group-custom">
+                                    <label asp-for="Message" class="form-label-custom">Message</label>
+                                    <textarea asp-for="Message" class="form-control-custom" rows="6" placeholder="Tell me more..."></textarea>
+                                    <span asp-validation-for="Message" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary-custom btn-lg w-100">
+                                    <i class="bi bi-send me-2"></i> Send Message
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

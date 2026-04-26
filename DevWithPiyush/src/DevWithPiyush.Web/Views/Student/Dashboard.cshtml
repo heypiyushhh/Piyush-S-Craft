@@ -1,0 +1,122 @@
+@model StudentDashboardDto
+@{
+    ViewData["Title"] = "Student Dashboard";
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title animate-slide-up">Welcome, @Model.StudentName</h1>
+        <p class="page-subtitle animate-slide-up" style="animation-delay: 0.2s">Track your learning progress</p>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <!-- Stats Cards -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-4 scroll-reveal">
+                <div class="stat-card">
+                    <div class="stat-card-icon"><i class="bi bi-book"></i></div>
+                    <div class="stat-card-info">
+                        <span class="stat-card-number">@Model.TotalEnrolled</span>
+                        <span class="stat-card-label">Enrolled Courses</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 scroll-reveal" style="animation-delay: 0.1s">
+                <div class="stat-card">
+                    <div class="stat-card-icon in-progress"><i class="bi bi-hourglass-split"></i></div>
+                    <div class="stat-card-info">
+                        <span class="stat-card-number">@Model.InProgress</span>
+                        <span class="stat-card-label">In Progress</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 scroll-reveal" style="animation-delay: 0.2s">
+                <div class="stat-card">
+                    <div class="stat-card-icon completed"><i class="bi bi-trophy"></i></div>
+                    <div class="stat-card-info">
+                        <span class="stat-card-number">@Model.Completed</span>
+                        <span class="stat-card-label">Completed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enrolled Courses -->
+        <h3 class="mb-4 scroll-reveal">My Courses</h3>
+
+        @if (!Model.Enrollments.Any())
+        {
+            <div class="card-custom text-center py-5 scroll-reveal">
+                <i class="bi bi-journal-bookmark" style="font-size: 3rem; color: var(--text-muted);"></i>
+                <h4 class="mt-3 text-muted">No courses yet</h4>
+                <p class="text-muted">Start your learning journey today!</p>
+                <a asp-controller="Course" asp-action="Index" class="btn btn-primary-custom">
+                    Browse Courses <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        }
+
+        <div class="row g-4">
+            @foreach (var enrollment in Model.Enrollments)
+            {
+                <div class="col-lg-6 scroll-reveal">
+                    <div class="card-custom enrollment-card">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h5 class="mb-1">@enrollment.CourseTitle</h5>
+                                <span class="badge @(enrollment.Status == EnrollmentStatus.Completed ? "bg-success" :
+                                    enrollment.Status == EnrollmentStatus.InProgress ? "bg-warning text-dark" : "bg-secondary")">
+                                    @enrollment.Status
+                                </span>
+                            </div>
+                            @if (enrollment.Status == EnrollmentStatus.Completed)
+                            {
+                                <a asp-controller="Student" asp-action="DownloadCertificate"
+                                   asp-route-enrollmentId="@enrollment.Id"
+                                   class="btn btn-sm btn-outline-custom">
+                                    <i class="bi bi-download"></i> Certificate
+                                </a>
+                            }
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <small class="text-muted">Progress</small>
+                                <small class="text-muted">@enrollment.ProgressPercent%</small>
+                            </div>
+                            <div class="progress" style="height: 8px; background: var(--bg-primary); border-radius: 4px;">
+                                <div class="progress-bar @(enrollment.ProgressPercent >= 100 ? "bg-success" : "")"
+                                     style="width: @enrollment.ProgressPercent%; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Update Progress -->
+                        @if (enrollment.Status != EnrollmentStatus.Completed)
+                        {
+                            <form asp-controller="Student" asp-action="UpdateProgress" method="post" class="d-flex gap-2">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="enrollmentId" value="@enrollment.Id" />
+                                <input type="range" name="progress" value="@enrollment.ProgressPercent"
+                                       min="0" max="100" step="10" class="form-range flex-grow-1"
+                                       oninput="this.nextElementSibling.textContent=this.value+'%'" />
+                                <span class="text-muted small" style="min-width: 40px;">@enrollment.ProgressPercent%</span>
+                                <button type="submit" class="btn btn-sm btn-primary-custom">Update</button>
+                            </form>
+                        }
+
+                        <div class="mt-2 text-muted small">
+                            Enrolled: @enrollment.EnrolledAt.ToString("MMM dd, yyyy")
+                            @if (enrollment.CompletedAt.HasValue)
+                            {
+                                <span class="ms-2">| Completed: @enrollment.CompletedAt.Value.ToString("MMM dd, yyyy")</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

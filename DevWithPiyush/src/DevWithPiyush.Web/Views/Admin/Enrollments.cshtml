@@ -1,0 +1,43 @@
+@model IEnumerable<EnrollmentDto>
+@{
+    ViewData["Title"] = "Enrollments";
+    ViewData["AdminPage"] = true;
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title animate-slide-up">Enrollments</h1>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="card-custom">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Course</th>
+                            <th>Status</th>
+                            <th>Progress</th>
+                            <th>Enrolled</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var e in Model)
+                        {
+                            <tr>
+                                <td><strong>@e.StudentName</strong><br/><small class="text-muted">@e.StudentEmail</small></td>
+                                <td>@e.CourseTitle</td>
+                                <td><span class="badge bg-secondary">@e.Status</span></td>
+                                <td>@e.ProgressPercent%</td>
+                                <td><small>@e.EnrolledAt.ToString("MMM dd, yyyy")</small></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

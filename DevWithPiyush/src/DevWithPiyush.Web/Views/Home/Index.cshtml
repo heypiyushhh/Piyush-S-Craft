@@ -1,0 +1,236 @@
+@model HomeViewModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- Hero Section -->
+<section class="hero-section" id="hero">
+    <div class="hero-bg-pattern"></div>
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-badge animate-fade-in">
+                <span class="badge-dot"></span> Available for Training & Consulting
+            </div>
+            <h1 class="hero-title">
+                <span class="hero-line animate-slide-up" style="animation-delay: 0.1s">Hi, I'm <span class="text-gradient">Piyush</span></span>
+                <span class="hero-line animate-slide-up" style="animation-delay: 0.3s">Full-Stack Developer</span>
+                <span class="hero-line animate-slide-up" style="animation-delay: 0.5s">Trainer & Mentor</span>
+            </h1>
+            <p class="hero-subtitle animate-slide-up" style="animation-delay: 0.7s">
+                I help developers master modern web technologies through hands-on training programs.
+                Specializing in C#, ASP.NET Core, React, SQL Server, and Cloud Architecture.
+            </p>
+            <div class="hero-cta animate-slide-up" style="animation-delay: 0.9s">
+                <a asp-controller="Course" asp-action="Index" class="btn btn-primary-custom btn-lg me-3">
+                    Explore Courses <i class="bi bi-arrow-right"></i>
+                </a>
+                <a href="#about" class="btn btn-outline-custom btn-lg">
+                    About Me
+                </a>
+            </div>
+            <div class="hero-stats animate-fade-in" style="animation-delay: 1.2s">
+                <div class="stat-item">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Students Trained</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Projects Delivered</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number">5+</span>
+                    <span class="stat-label">Years Experience</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="section-padding" id="about">
+    <div class="container">
+        <div class="section-header scroll-reveal">
+            <span class="section-tag">About</span>
+            <h2 class="section-title">About DevWithPiyush</h2>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-lg-6 scroll-reveal">
+                <div class="about-image-wrapper">
+                    <div class="about-image-placeholder">
+                        <i class="bi bi-code-slash"></i>
+                    </div>
+                    <div class="about-decoration"></div>
+                </div>
+            </div>
+            <div class="col-lg-6 scroll-reveal" style="animation-delay: 0.2s">
+                <div class="about-content">
+                    <h3>Building the next generation of developers</h3>
+                    <p>
+                        I'm a full-stack developer and educator passionate about making complex technologies 
+                        accessible to everyone. With expertise spanning backend (.NET ecosystem), 
+                        frontend (React, Angular), databases (SQL Server), and cloud (Azure), I bring 
+                        real-world experience into my training programs.
+                    </p>
+                    <p>
+                        My approach focuses on practical, project-based learning. Every concept is taught 
+                        with production-level standards — because that's what the industry demands.
+                    </p>
+                    <div class="about-highlights">
+                        <div class="highlight-item">
+                            <i class="bi bi-mortarboard-fill"></i>
+                            <span>Production-level training</span>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="bi bi-laptop"></i>
+                            <span>Hands-on projects</span>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="bi bi-people-fill"></i>
+                            <span>1-on-1 mentorship</span>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="bi bi-briefcase-fill"></i>
+                            <span>Industry-ready curriculum</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section class="section-padding section-alt" id="skills">
+    <div class="container">
+        <div class="section-header scroll-reveal">
+            <span class="section-tag">Expertise</span>
+            <h2 class="section-title">Skills & Technologies</h2>
+        </div>
+        <div class="row g-4">
+            @foreach (var skill in Model.Skills)
+            {
+                <div class="col-md-6 scroll-reveal">
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">@skill.Name</span>
+                            <span class="skill-badge">@skill.Category</span>
+                            <span class="skill-percent">@skill.Proficiency%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-width="@skill.Proficiency"></div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section class="section-padding" id="projects">
+    <div class="container">
+        <div class="section-header scroll-reveal">
+            <span class="section-tag">Portfolio</span>
+            <h2 class="section-title">Featured Projects</h2>
+        </div>
+        <div class="row g-4">
+            @foreach (var project in Model.Projects)
+            {
+                <div class="col-lg-4 col-md-6 scroll-reveal">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="bi bi-folder-fill project-icon"></i>
+                        </div>
+                        <div class="project-body">
+                            <h5 class="project-title">@project.Title</h5>
+                            <p class="project-desc">@project.Description</p>
+                            <div class="project-tech">
+                                @foreach (var tech in project.Technologies.Split(',', StringSplitOptions.TrimEntries))
+                                {
+                                    <span class="tech-tag">@tech</span>
+                                }
+                            </div>
+                            <div class="project-links">
+                                @if (!string.IsNullOrEmpty(project.LiveUrl))
+                                {
+                                    <a href="@project.LiveUrl" target="_blank" class="project-link">
+                                        <i class="bi bi-box-arrow-up-right"></i> Live
+                                    </a>
+                                }
+                                @if (!string.IsNullOrEmpty(project.GitHubUrl))
+                                {
+                                    <a href="@project.GitHubUrl" target="_blank" class="project-link">
+                                        <i class="bi bi-github"></i> Code
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Training Programs Section -->
+<section class="section-padding section-alt" id="courses">
+    <div class="container">
+        <div class="section-header scroll-reveal">
+            <span class="section-tag">Training</span>
+            <h2 class="section-title">Featured Courses</h2>
+        </div>
+        <div class="row g-4">
+            @foreach (var course in Model.FeaturedCourses)
+            {
+                <div class="col-lg-4 col-md-6 scroll-reveal">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <span class="course-level-badge @course.Level.ToString().ToLower()">@course.Level</span>
+                            <i class="bi bi-play-circle course-play-icon"></i>
+                        </div>
+                        <div class="course-body">
+                            <h5 class="course-title">@course.Title</h5>
+                            <p class="course-desc">@course.ShortDescription</p>
+                            <div class="course-meta">
+                                <span><i class="bi bi-clock"></i> @course.DurationHours hrs</span>
+                                <span><i class="bi bi-people"></i> @course.EnrollmentCount enrolled</span>
+                            </div>
+                            <div class="course-footer">
+                                <span class="course-price">
+                                    @(course.Price == 0 ? "Free" : "₹" + course.Price.ToString("N0"))
+                                </span>
+                                <a asp-controller="Course" asp-action="Details" asp-route-slug="@course.Slug"
+                                   class="btn btn-sm btn-outline-custom">
+                                    View Details <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="text-center mt-5 scroll-reveal">
+            <a asp-controller="Course" asp-action="Index" class="btn btn-primary-custom btn-lg">
+                View All Courses <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container text-center">
+        <div class="scroll-reveal">
+            <h2 class="cta-title">Ready to level up your skills?</h2>
+            <p class="cta-subtitle">Join hundreds of developers who have accelerated their careers with DevWithPiyush.</p>
+            <a asp-controller="Account" asp-action="Register" class="btn btn-light btn-lg me-3">
+                Get Started Free <i class="bi bi-arrow-right"></i>
+            </a>
+            <a asp-controller="Home" asp-action="Contact" class="btn btn-outline-light btn-lg">
+                Get in Touch
+            </a>
+        </div>
+    </div>
+</section>

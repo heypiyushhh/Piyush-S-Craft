@@ -1,0 +1,59 @@
+@model IEnumerable<ContactQueryDto>
+@{
+    ViewData["Title"] = "Contact Queries";
+    ViewData["AdminPage"] = true;
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title animate-slide-up">Contact Queries</h1>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        @if (!Model.Any())
+        {
+            <div class="card-custom text-center py-5">
+                <i class="bi bi-inbox" style="font-size: 3rem; color: var(--text-muted);"></i>
+                <h4 class="mt-3 text-muted">No queries yet</h4>
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+                @foreach (var q in Model)
+                {
+                    <div class="col-lg-6 scroll-reveal">
+                        <div class="card-custom @(!q.IsRead ? "unread-card" : "")">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h5 class="mb-1">@q.Subject</h5>
+                                    <small class="text-muted">@q.Name &bull; @q.Email</small>
+                                </div>
+                                @if (!q.IsRead)
+                                {
+                                    <span class="badge bg-danger">New</span>
+                                }
+                            </div>
+                            <p class="text-muted mb-3">@q.Message</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">@q.SubmittedAt.ToString("MMM dd, yyyy HH:mm")</small>
+                                @if (!q.IsRead)
+                                {
+                                    <form asp-action="MarkQueryRead" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@q.Id" />
+                                        <button type="submit" class="btn btn-sm btn-outline-custom">
+                                            <i class="bi bi-check2"></i> Mark Read
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>
