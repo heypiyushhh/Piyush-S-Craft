@@ -10,7 +10,7 @@
                 <div class="auth-card animate-fade-in">
                     <div class="auth-header">
                         <h2>Welcome Back</h2>
-                        <p>Sign in to your DevWithPiyush account</p>
+                        <p>Sign in to your PIYUSH S-CRAFT SOLUTION account</p>
                     </div>
                     <form asp-action="Login" method="post">
                         @Html.AntiForgeryToken()
@@ -19,7 +19,8 @@
 
                         <div class="form-group-custom mb-3">
                             <label asp-for="Email" class="form-label-custom">Email</label>
-                            <input asp-for="Email" class="form-control-custom" placeholder="you@example.com" autofocus />
+                            <input asp-for="Email" class="form-control-custom" placeholder="you@example.com"
+                                   autofocus />
                             <span asp-validation-for="Email" class="text-danger small"></span>
                         </div>
 
@@ -44,11 +45,7 @@
                         </p>
                     </form>
 
-                    <div class="auth-demo-info">
-                        <p class="small text-muted mb-1"><strong>Demo Credentials:</strong></p>
-                        <p class="small text-muted mb-0">Admin: admin@devwithpiyush.com / Admin@123456</p>
-                        <p class="small text-muted mb-0">Student: student@devwithpiyush.com / Student@123456</p>
-                    </div>
+     
                 </div>
             </div>
         </div>

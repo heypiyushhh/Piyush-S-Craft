@@ -3,8 +3,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="DevWithPiyush — Full-Stack Developer, Trainer & Mentor. Master C#, ASP.NET Core, React, SQL Server and more." />
-    <title>@ViewData["Title"] — DevWithPiyush</title>
+    <meta name="description" content="PIYUSH S-CRAFT SOLUTION — Technology Solutions, Full-Stack Development, Training & Mentorship." />
+
+
+    <title>@ViewData["Title"] — PIYUSH S-CRAFT SOLUTION</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -18,17 +20,21 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="icon" type="image/png" href="~/Images/profile.png" />
+
+
     @if (ViewData["AdminPage"] != null)
     {
         <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
     }
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
         <div class="container">
-            <a class="navbar-brand" href="/">
-                <span class="brand-icon">&#9671;</span> DevWithPiyush
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="/Images/scraft_logo_horizontal.svg" alt="PIYUSH S-CRAFT SOLUTION" style="height: 38px; width: auto;" />
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -111,7 +117,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 mb-4">
-                    <h5><span class="brand-icon">&#9671;</span> DevWithPiyush</h5>
+                    <img src="/Images/scraft_logo_horizontal.svg" alt="PIYUSH S-CRAFT SOLUTION" style="height: 38px; width: auto; margin-bottom: 12px;" />
                     <p class="text-muted">Full-Stack Developer, Trainer & Mentor. Empowering developers to build production-ready applications.</p>
                 </div>
                 <div class="col-md-4 mb-4">
@@ -125,15 +131,15 @@
                 <div class="col-md-4 mb-4">
                     <h6>Connect</h6>
                     <div class="social-links">
-                        <a href="#" class="social-link"><i class="bi bi-github"></i></a>
-                        <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
-                        <a href="#" class="social-link"><i class="bi bi-twitter-x"></i></a>
+                        <a href="https://github.com/heypiyushhh" class="social-link"><i class="bi bi-github"></i></a>
+                        <a href="https://www.linkedin.com/in/heypiyushhh" class="social-link"><i class="bi bi-linkedin"></i></a>
+                        <a href="https://x.com/HeyPiyushhh" class="social-link"><i class="bi bi-twitter-x"></i></a>
                         <a href="#" class="social-link"><i class="bi bi-youtube"></i></a>
                     </div>
                 </div>
             </div>
             <hr class="border-secondary" />
-            <p class="text-center text-muted mb-0">&copy; @DateTime.Now.Year DevWithPiyush. All rights reserved.</p>
+            <p class="text-center text-muted mb-0">&copy; @DateTime.Now.Year PIYUSH S-CRAFT SOLUTION. All rights reserved.</p>
         </div>
     </footer>
 

@@ -1,20 +1,25 @@
-using System.Text;
 using DevWithPiyush.Application.DTOs;
 using DevWithPiyush.Application.Interfaces;
 using DevWithPiyush.Domain.Entities;
 using DevWithPiyush.Domain.Enums;
 using DevWithPiyush.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+
 
 namespace DevWithPiyush.Application.Services;
 
 public class EnrollmentService : IEnrollmentService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly string _webRootPath;
 
-    public EnrollmentService(IUnitOfWork unitOfWork)
+    public EnrollmentService(IUnitOfWork unitOfWork, string webRootPath)
     {
         _unitOfWork = unitOfWork;
+        _webRootPath = webRootPath;
     }
 
     public async Task<(bool Success, string Message)> EnrollStudentAsync(string userId, int courseId)
@@ -94,30 +99,91 @@ public class EnrollmentService : IEnrollmentService
 
     public async Task<byte[]?> GenerateCertificateAsync(int enrollmentId, string userId)
     {
+        // Deprecated: HTML/CSS certificate view is now used instead.
+        return await Task.FromResult<byte[]?>(null);
+    }
+
+    public async Task<Certificate?> GetOrCreateCertificateAsync(int enrollmentId, string userId)
+    {
         var enrollment = await _unitOfWork.Enrollments
             .Query()
             .Include(e => e.Course)
             .Include(e => e.User)
             .FirstOrDefaultAsync(e => e.Id == enrollmentId && e.UserId == userId);
 
-        if (enrollment == null || enrollment.Status != EnrollmentStatus.Completed)
+        if (enrollment == null || enrollment.Status != EnrollmentStatus.Completed || !enrollment.Course.IssuesCertificate)
             return null;
 
-        // Generate a simple text-based certificate (dummy PDF placeholder)
-        // In production, use a proper PDF library like iTextSharp or QuestPDF
-        var certificate = GenerateDummyCertificate(
-            enrollment.User.FullName,
-            enrollment.Course.Title,
-            enrollment.CompletedAt ?? DateTime.UtcNow
-        );
+        var existingCert = await _unitOfWork.Certificates
+            .FirstOrDefaultAsync(c => c.EnrollmentId == enrollmentId);
+
+        if (existingCert != null)
+            return existingCert;
+
+        string studentName = enrollment.User.FullName;
+        string programName = enrollment.Course.Title;
+        DateTime completedDate = enrollment.CompletedAt ?? DateTime.UtcNow;
+        string certificateId = "DWPCERT-" + Guid.NewGuid().ToString("N")[..8].ToUpper();
+
+        var certificate = new Certificate
+        {
+            EnrollmentId = enrollmentId,
+            StudentName = studentName,
+            ProgramName = programName,
+            CertificateUniqueId = certificateId,
+            CompletionDate = completedDate,
+            GeneratedAt = DateTime.UtcNow
+        };
+
+        await _unitOfWork.Certificates.AddAsync(certificate);
+        await _unitOfWork.SaveChangesAsync();
 
         return certificate;
     }
+
+    public async Task<Certificate?> GetCertificateByUniqueIdAsync(string uniqueId)
+    {
+        return await _unitOfWork.Certificates
+            .Query()
+            .Include(c => c.Enrollment)
+            .ThenInclude(e => e.Course)
+            .FirstOrDefaultAsync(c => c.CertificateUniqueId == uniqueId);
+    }
+
 
     public async Task<bool> IsEnrolledAsync(string userId, int courseId)
     {
         return await _unitOfWork.Enrollments
             .FirstOrDefaultAsync(e => e.UserId == userId && e.CourseId == courseId) != null;
+    }
+
+    public async Task<bool> TrackLessonProgressAsync(string userId, int lessonId)
+    {
+        var existing = await _unitOfWork.LessonProgresses
+            .FirstOrDefaultAsync(lp => lp.UserId == userId && lp.LessonId == lessonId);
+
+        if (existing == null)
+        {
+            var progress = new LessonProgress
+            {
+                UserId = userId,
+                LessonId = lessonId,
+                WatchedAt = DateTime.UtcNow
+            };
+            await _unitOfWork.LessonProgresses.AddAsync(progress);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+        return true;
+    }
+
+    public async Task<List<int>> GetCompletedLessonIdsAsync(string userId, int courseId)
+    {
+        return await _unitOfWork.LessonProgresses
+            .Query()
+            .Where(lp => lp.UserId == userId && lp.Lesson.Section.CourseId == courseId)
+            .Select(lp => lp.LessonId)
+            .ToListAsync();
     }
 
     // ── Helpers ─────────────────────────────────────────────────
@@ -130,49 +196,11 @@ public class EnrollmentService : IEnrollmentService
         StudentEmail = e.User?.Email ?? "",
         CourseId = e.CourseId,
         CourseTitle = e.Course?.Title ?? "Unknown",
+        CourseSlug = e.Course?.Slug ?? "",
         Status = e.Status,
         ProgressPercent = e.ProgressPercent,
+        IssuesCertificate = e.Course?.IssuesCertificate ?? false,
         EnrolledAt = e.EnrolledAt,
         CompletedAt = e.CompletedAt
     };
-
-    /// <summary>
-    /// Generates a simple text file as a dummy certificate.
-    /// Replace with QuestPDF or iTextSharp in production for proper PDF generation.
-    /// </summary>
-    private static byte[] GenerateDummyCertificate(string studentName, string courseTitle, DateTime completedDate)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine("═══════════════════════════════════════════════════════════");
-        sb.AppendLine();
-        sb.AppendLine("                    CERTIFICATE OF COMPLETION");
-        sb.AppendLine();
-        sb.AppendLine("═══════════════════════════════════════════════════════════");
-        sb.AppendLine();
-        sb.AppendLine("                       DevWithPiyush");
-        sb.AppendLine("                  Training & Development Platform");
-        sb.AppendLine();
-        sb.AppendLine("───────────────────────────────────────────────────────────");
-        sb.AppendLine();
-        sb.AppendLine("  This is to certify that");
-        sb.AppendLine();
-        sb.AppendLine($"                    {studentName}");
-        sb.AppendLine();
-        sb.AppendLine("  has successfully completed the course");
-        sb.AppendLine();
-        sb.AppendLine($"                    \"{courseTitle}\"");
-        sb.AppendLine();
-        sb.AppendLine($"  Date of Completion: {completedDate:MMMM dd, yyyy}");
-        sb.AppendLine();
-        sb.AppendLine("───────────────────────────────────────────────────────────");
-        sb.AppendLine();
-        sb.AppendLine("  Certificate ID: DWPCERT-" + Guid.NewGuid().ToString("N")[..8].ToUpper());
-        sb.AppendLine();
-        sb.AppendLine("                                    Piyush");
-        sb.AppendLine("                                    Founder, DevWithPiyush");
-        sb.AppendLine();
-        sb.AppendLine("═══════════════════════════════════════════════════════════");
-
-        return Encoding.UTF8.GetBytes(sb.ToString());
-    }
 }

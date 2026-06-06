@@ -15,3 +15,10 @@ public class CourseDetailViewModel
     public bool IsEnrolled { get; set; }
     public bool IsAuthenticated { get; set; }
 }
+
+public class CoursePlayerViewModel
+{
+    public CourseDto Course { get; set; } = new();
+    public LessonDto? CurrentLesson { get; set; }
+    public bool IsEnrolled { get; set; }
+}

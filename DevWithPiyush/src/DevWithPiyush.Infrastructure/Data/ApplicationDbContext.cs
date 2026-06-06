@@ -20,6 +20,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<ContactQuery> ContactQueries => Set<ContactQuery>();
     public DbSet<Project> Projects => Set<Project>();
     public DbSet<Skill> Skills => Set<Skill>();
+    public DbSet<Certificate> Certificates => Set<Certificate>();
+    public DbSet<CourseSection> CourseSections => Set<CourseSection>();
+    public DbSet<Lesson> Lessons => Set<Lesson>();
+    public DbSet<LessonProgress> LessonProgresses => Set<LessonProgress>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -68,6 +72,17 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<Skill>(e =>
         {
             e.HasIndex(s => s.DisplayOrder);
+        });
+
+        // ── Certificate ──────────────────────────────────────────
+        builder.Entity<Certificate>(e =>
+        {
+            e.HasIndex(c => c.CertificateUniqueId).IsUnique();
+
+            e.HasOne(c => c.Enrollment)
+             .WithMany()
+             .HasForeignKey(c => c.EnrollmentId)
+             .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

@@ -32,7 +32,26 @@ public class CourseDto
     public decimal Price { get; set; }
 
     public bool IsPublished { get; set; }
+    public bool IssuesCertificate { get; set; } = true;
 
     public DateTime CreatedAt { get; set; }
     public int EnrollmentCount { get; set; }
+    public List<SectionDto> Sections { get; set; } = new();
+}
+
+public class SectionDto
+{
+    public int Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public int Order { get; set; }
+    public List<LessonDto> Lessons { get; set; } = new();
+}
+
+public class LessonDto
+{
+    public int Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string? YouTubeVideoId { get; set; }
+    public int Order { get; set; }
+    public bool IsCompleted { get; set; }
 }

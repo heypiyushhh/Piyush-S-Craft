@@ -1,0 +1,151 @@
+@model DevWithPiyush.Application.DTOs.CourseDto
+@{
+    ViewData["Title"] = $"Curriculum - {Model.Title}";
+    ViewData["AdminPage"] = true;
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title animate-slide-up">Manage Curriculum</h1>
+        <p class="page-subtitle animate-slide-up" style="animation-delay: 0.2s">@Model.Title</p>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4 scroll-reveal">
+            <a asp-action="Courses" class="btn btn-outline-custom">
+                <i class="bi bi-arrow-left"></i> Back to Courses
+            </a>
+        </div>
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show mb-4 scroll-reveal" role="alert">
+                <i class="bi bi-check-circle me-2"></i> @TempData["Success"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show mb-4 scroll-reveal" role="alert">
+                <i class="bi bi-exclamation-triangle me-2"></i> @TempData["Error"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+
+        <div class="row g-4">
+            <!-- Add Section -->
+            <div class="col-lg-4 scroll-reveal">
+                <div class="card-custom">
+                    <h4 class="mb-4">Add New Section</h4>
+                    <form asp-action="AddSection" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="courseId" value="@Model.Id" />
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">SECTION TITLE</label>
+                            <input type="text" name="title" class="form-control bg-dark text-white border-secondary" placeholder="e.g. Introduction to C#" required />
+                        </div>
+                        <button type="submit" class="btn btn-primary-custom w-100">
+                            <i class="bi bi-plus-lg me-1"></i> Create Section
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Curriculum List -->
+            <div class="col-lg-8 scroll-reveal" style="animation-delay: 0.2s">
+                <div class="accordion" id="curriculumAccordion">
+                    @foreach (var cSection in Model.Sections.OrderBy(s => s.Order))
+                    {
+                        <div class="accordion-item mb-3 border-0 bg-transparent">
+                            <div class="card-custom p-0 overflow-hidden">
+                                <div class="accordion-header">
+                                    <div class="d-flex justify-content-between align-items-center p-3 bg-secondary bg-opacity-10">
+                                        <button class="btn btn-link text-white text-decoration-none fw-bold p-0" type="button" data-bs-toggle="collapse" data-bs-target="#sec-@cSection.Id">
+                                            <i class="bi bi-chevron-down me-2"></i> @cSection.Title
+                                        </button>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="badge bg-secondary">@cSection.Lessons.Count Lessons</span>
+                                            <form asp-action="DeleteSection" method="post" class="d-inline" onsubmit="return confirm('Delete this section and all its lessons?')">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="sectionId" value="@cSection.Id" />
+                                                <input type="hidden" name="courseId" value="@Model.Id" />
+                                                <button type="submit" class="btn btn-sm btn-outline-danger border-0">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="sec-@cSection.Id" class="accordion-collapse collapse show">
+                                    <div class="card-body bg-dark bg-opacity-50">
+                                        <ul class="list-group list-group-flush mb-4">
+                                            @foreach (var lesson in cSection.Lessons.OrderBy(l => l.Order))
+                                            {
+                                                <li class="list-group-item bg-transparent border-secondary d-flex justify-content-between align-items-center py-3 text-white">
+                                                    <div>
+                                                        <i class="bi bi-play-circle me-2 text-primary"></i>
+                                                        <span>@lesson.Title</span>
+                                                        @if (!string.IsNullOrEmpty(lesson.YouTubeVideoId))
+                                                        {
+                                                            <span class="badge bg-primary bg-opacity-25 text-primary ms-2 small">
+                                                                <i class="bi bi-youtube me-1"></i> @lesson.YouTubeVideoId
+                                                            </span>
+                                                        }
+                                                    </div>
+                                                    <form asp-action="DeleteLesson" method="post" onsubmit="return confirm('Delete this lesson?')">
+                                                        @Html.AntiForgeryToken()
+                                                        <input type="hidden" name="lessonId" value="@lesson.Id" />
+                                                        <input type="hidden" name="courseId" value="@Model.Id" />
+                                                        <button type="submit" class="btn btn-sm text-danger p-0">
+                                                            <i class="bi bi-x-circle"></i>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            }
+                                        </ul>
+
+                                        <div class="mt-4 p-3 rounded bg-secondary bg-opacity-10 border border-secondary border-opacity-25">
+                                            <h6 class="mb-3 small text-muted">ADD LESSON TO THIS SECTION</h6>
+                                            <form asp-action="AddLesson" method="post" class="row g-2">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="sectionId" value="@cSection.Id" />
+                                                <input type="hidden" name="courseId" value="@Model.Id" />
+                                                <div class="col-md-6">
+                                                    <input type="text" name="title" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="Lesson Title" required />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input type="text" name="youtubeVideoId" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="YouTube Video ID (Optional)" />
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="submit" class="btn btn-sm btn-primary-custom w-100">Add</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (!Model.Sections.Any())
+                    {
+                        <div class="card-custom text-center py-5 border-dashed">
+                            <i class="bi bi-layers text-muted display-4 mb-3 d-block"></i>
+                            <p class="text-muted">No sections yet. Add your first section to start building the curriculum.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Styles {
+    <style>
+        .border-dashed { border: 2px dashed rgba(255,255,255,0.1) !important; }
+        .accordion-button:focus { box-shadow: none; }
+        .list-group-item { border-style: solid none; }
+        .list-group-item:last-child { border-bottom: none; }
+    </style>
+}

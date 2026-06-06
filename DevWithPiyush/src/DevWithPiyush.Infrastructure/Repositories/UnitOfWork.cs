@@ -17,6 +17,10 @@ public class UnitOfWork : IUnitOfWork
     private IRepository<ContactQuery>? _contactQueries;
     private IRepository<Project>? _projects;
     private IRepository<Skill>? _skills;
+    private IRepository<Certificate>? _certificates;
+    private IRepository<CourseSection>? _courseSections;
+    private IRepository<Lesson>? _lessons;
+    private IRepository<LessonProgress>? _lessonProgresses;
 
     public UnitOfWork(ApplicationDbContext context)
     {
@@ -37,6 +41,18 @@ public class UnitOfWork : IUnitOfWork
 
     public IRepository<Skill> Skills
         => _skills ??= new Repository<Skill>(_context);
+
+    public IRepository<Certificate> Certificates
+        => _certificates ??= new Repository<Certificate>(_context);
+
+    public IRepository<CourseSection> CourseSections
+        => _courseSections ??= new Repository<CourseSection>(_context);
+
+    public IRepository<Lesson> Lessons
+        => _lessons ??= new Repository<Lesson>(_context);
+
+    public IRepository<LessonProgress> LessonProgresses
+        => _lessonProgresses ??= new Repository<LessonProgress>(_context);
 
     public async Task<int> SaveChangesAsync()
         => await _context.SaveChangesAsync();

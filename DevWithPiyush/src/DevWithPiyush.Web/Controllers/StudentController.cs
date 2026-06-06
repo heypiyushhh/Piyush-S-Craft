@@ -39,17 +39,8 @@ public class StudentController : Controller
         return RedirectToAction(nameof(Dashboard));
     }
 
-    public async Task<IActionResult> DownloadCertificate(int enrollmentId)
+    public IActionResult DownloadCertificate(int enrollmentId)
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-        var certificate = await _enrollmentService.GenerateCertificateAsync(enrollmentId, userId);
-
-        if (certificate == null)
-        {
-            TempData["Error"] = "Certificate is only available for completed courses.";
-            return RedirectToAction(nameof(Dashboard));
-        }
-
-        return File(certificate, "text/plain", "DevWithPiyush_Certificate.txt");
+        return RedirectToAction("View", "Certificate", new { enrollmentId });
     }
 }

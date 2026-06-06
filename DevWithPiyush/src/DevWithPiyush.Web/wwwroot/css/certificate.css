@@ -1,0 +1,505 @@
+/* ==========================================================================
+   Premium Certificate System - Redesigned Centered University Style
+   PIYUSH S-CRAFT SOLUTION
+   ========================================================================== */
+
+/* 1. Imports & Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Sacramento&display=swap');
+
+:root {
+    --primary-blue: #071b33;      /* Deep premium blue */
+    --accent-gold: #c6a355;       /* Warm metallic gold */
+    --text-main: #374151;        /* Charcoal gray */
+    --text-muted: #6b7280;       /* Muted gray for labels */
+    --viewer-bg: #070a13;        /* Dark background for browser viewer */
+}
+
+/* 2. Global Viewport Reset */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text-main);
+    background-color: var(--viewer-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 3. Screen Viewer UI Controls */
+.viewer-controls {
+    position: fixed;
+    top: 20px;
+    z-index: 100;
+    display: flex;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.btn-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 30px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-control-primary {
+    background: linear-gradient(135deg, var(--accent-gold), #9a7b56);
+    border: none;
+}
+
+.btn-control-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(198, 163, 85, 0.4);
+}
+
+.btn-control-secondary {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-control-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
+}
+
+/* 4. Certificate Container - Landscape A4 */
+.certificate-wrapper {
+    position: relative;
+    margin: 80px 20px 40px 20px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.certificate-container {
+    position: relative;
+    width: 297mm;
+    height: 210mm;
+    background: linear-gradient(135deg, #ffffff 40%, #f7f9fc 100%);
+    box-sizing: border-box;
+    padding: 10mm 14mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+/* Vector background SVGs positioned absolutely */
+.cert-bg-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Inner Gold Frame Border */
+.cert-border-gold {
+    position: absolute;
+    top: 8mm;
+    left: 8mm;
+    right: 8mm;
+    bottom: 8mm;
+    border: 3px double var(--accent-gold);
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* 5. Centered Content Container */
+.cert-content-centered {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    z-index: 5;
+    position: relative;
+    box-sizing: border-box;
+    padding: 3mm 6mm;
+}
+
+/* Header Row Layout (Top-Left MSME, Top-Right Company Name) */
+.cert-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.msme-badge-container {
+    display: flex;
+    align-items: center;
+    margin-left: 2mm;
+    margin-top: 1mm;
+}
+
+.msme-badge-img {
+    height: 52px;
+    width: auto;
+    display: block;
+}
+
+/* Company Branding (Two Lines + ID Underneath) */
+.cert-company-name {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 2mm;
+    margin-top: 1mm;
+}
+
+.company-name-main-2lines {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    line-height: 1.15;
+}
+
+.company-name-main-2lines .line1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 34px;
+    letter-spacing: 0.16em;
+    color: var(--primary-blue);
+}
+
+.company-name-main-2lines .line2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 19.5px;
+    letter-spacing: 0.36em;
+    color: var(--accent-gold);
+    margin-top: 3px;
+}
+
+.company-msme-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    margin-top: 4px;
+    text-align: right;
+}
+
+.cert-id-under-company {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 13.5px;
+    color: var(--primary-blue);
+    letter-spacing: 0.05em;
+    margin-top: 5px;
+}
+
+/* 6. Central Body Content (Centered Horizontally & Vertically) */
+.cert-body-centered-block {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin-top: 1mm;
+    margin-bottom: 1mm;
+}
+
+.cert-title-prominent {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-size: 64px;
+    color: var(--primary-blue);
+    letter-spacing: 0.16em;
+    margin: 0;
+    line-height: 1;
+}
+
+/* CSS Swallowtail Ribbon banner centered */
+.cert-subtitle-ribbon-centered {
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent-gold), #b8933b);
+    color: #ffffff;
+    padding: 5px 30px;
+    margin-top: 8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    z-index: 5;
+}
+
+.cert-subtitle-ribbon-centered::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 2px;
+    width: 12px;
+    height: 100%;
+    background: #a37f2d;
+    clip-path: polygon(100% 0, 0 50%, 100% 100%);
+    z-index: -1;
+}
+
+.cert-subtitle-ribbon-centered::after {
+    content: '';
+    position: absolute;
+    right: -12px;
+    top: 2px;
+    width: 12px;
+    height: 100%;
+    background: #a37f2d;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    z-index: -1;
+}
+
+.ribbon-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 0.25em;
+}
+
+/* Main typography centered block */
+.cert-main-text-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5mm;
+    width: 100%;
+}
+
+.cert-presentation-text {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary-blue);
+    letter-spacing: 0.06em;
+    margin: 0 0 2mm 0;
+    text-align: center;
+}
+
+.cert-student-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 64px;
+    color: #8d702a; /* Warm golden bronze */
+    margin: 0 auto 3mm auto;
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+    text-align: center;
+    border-bottom: 2.5px solid var(--accent-gold);
+    padding-bottom: 6px;
+    display: inline-block;
+    min-width: 55%;
+}
+
+/* Gold Divider Line with Diamonds */
+.cert-gold-divider {
+    display: flex;
+    align-items: center;
+    width: 80%;
+    margin: 10px auto;
+}
+
+.divider-line {
+    flex-grow: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--accent-gold) 15%, var(--accent-gold) 85%, transparent);
+}
+
+.diamond-left, .diamond-right {
+    color: var(--accent-gold);
+    font-size: 11px;
+}
+
+.diamond-left {
+    margin-right: -1px;
+}
+
+.diamond-right {
+    margin-left: -1px;
+}
+
+.cert-description-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    color: var(--text-main);
+    line-height: 1.6;
+    max-width: 90%;
+    margin: 0 auto 4mm auto;
+    text-align: center;
+}
+
+.cert-conducted-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin: 0;
+    text-align: center;
+}
+
+/* 7. Bottom Metadata Layout (Balanced Columns) */
+.cert-bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    margin-top: auto;
+    padding-bottom: 2mm;
+    box-sizing: border-box;
+}
+
+.cert-bottom-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Bottom Left: Signature Column */
+.col-signature {
+    width: 45%;
+    align-items: flex-start;
+    text-align: left;
+    padding-left: 4mm;
+}
+
+.col-signature .field-line {
+    width: 220px;
+    height: 1px;
+    background-color: var(--accent-gold);
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.field-lbl {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+}
+
+.signature-area {
+    display: flex;
+    align-items: flex-end;
+    height: 54px;
+    margin-bottom: 1px;
+    margin-right: 6mm;
+}
+
+.signature-cursive {
+    
+    font-size: 25px;
+    padding-bottom: 4px;
+    color: var(--primary-blue);
+    user-select: none;
+    font-weight: 500;
+    margin-right: 4mm;
+    margin-bottom: -5px;
+    color: #946b09; /* Warm golden bronze */
+}
+
+/* Bottom Right: QR Code Column */
+.col-qr-right {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    padding-right: 4mm;
+}
+
+.qr-code-wrap {
+    border: 2px solid var(--accent-gold);
+    padding: 4px;
+    border-radius: 6px;
+    background-color: #ffffff;
+    display: inline-flex;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 6px;
+}
+
+.verify-qr-code {
+    width: 135px;
+    height: 135px;
+    display: block;
+}
+
+.field-lbl-qr {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+}
+
+/* 8. Print Media Directives */
+@media print {
+    @page {
+        size: A4 landscape;
+        margin: 0;
+    }
+
+    html, body {
+        background-color: #ffffff;
+        background-image: none;
+        display: block;
+        min-height: auto;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .viewer-controls {
+        display: none !important;
+    }
+
+    .certificate-wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        width: 297mm !important;
+        height: 210mm !important;
+        page-break-inside: avoid;
+        page-break-after: avoid;
+    }
+
+    .certificate-container {
+        width: 297mm !important;
+        height: 210mm !important;
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 10mm 14mm !important;
+        background-color: #ffffff !important;
+        box-sizing: border-box !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}

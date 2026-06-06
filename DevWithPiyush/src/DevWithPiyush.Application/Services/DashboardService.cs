@@ -40,8 +40,10 @@ public class DashboardService : IDashboardService
                 StudentEmail = e.User.Email ?? "",
                 CourseId = e.CourseId,
                 CourseTitle = e.Course.Title,
+                CourseSlug = e.Course.Slug,
                 Status = e.Status,
                 ProgressPercent = e.ProgressPercent,
+                IssuesCertificate = e.Course.IssuesCertificate,
                 EnrolledAt = e.EnrolledAt,
                 CompletedAt = e.CompletedAt
             })
@@ -75,8 +77,10 @@ public class DashboardService : IDashboardService
                 StudentEmail = e.User.Email ?? "",
                 CourseId = e.CourseId,
                 CourseTitle = e.Course.Title,
+                CourseSlug = e.Course.Slug,
                 Status = e.Status,
                 ProgressPercent = e.ProgressPercent,
+                IssuesCertificate = e.Course.IssuesCertificate,
                 EnrolledAt = e.EnrolledAt,
                 CompletedAt = e.CompletedAt
             })

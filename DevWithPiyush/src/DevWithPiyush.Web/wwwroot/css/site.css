@@ -529,3 +529,13 @@ select.form-control-custom { cursor: pointer; }
 
 /* ── Main content spacing ────────────────────────────────────── */
 .main-content { min-height: 60vh; }
+
+.profile-img {
+    max-width: 400px;   /* controls width */
+
+    object-fit:contain;  /* crops nicely if needed */
+    display: block;
+    margin: 0 auto;  
+    border-radius: 10px;  
+    border: 1PX solid white; /* centers the image */
+}

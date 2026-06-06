@@ -80,4 +80,53 @@ public class CourseController : Controller
 
         return RedirectToAction("Index");
     }
+
+    [Authorize]
+    public async Task<IActionResult> Watch(string slug, int? lessonId)
+    {
+        if (string.IsNullOrWhiteSpace(slug))
+            return NotFound();
+
+        var course = await _courseService.GetCourseBySlugAsync(slug);
+        if (course == null)
+            return NotFound();
+
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var isEnrolled = await _enrollmentService.IsEnrolledAsync(userId, course.Id);
+
+        if (!isEnrolled)
+            return RedirectToAction("Details", new { slug });
+
+        var completedLessonIds = await _enrollmentService.GetCompletedLessonIdsAsync(userId, course.Id);
+        foreach (var section in course.Sections)
+        {
+            foreach (var lesson in section.Lessons)
+            {
+                lesson.IsCompleted = completedLessonIds.Contains(lesson.Id);
+            }
+        }
+
+        var currentLesson = lessonId.HasValue
+            ? course.Sections.SelectMany(s => s.Lessons).FirstOrDefault(l => l.Id == lessonId.Value)
+            : course.Sections.OrderBy(s => s.Order).FirstOrDefault()?.Lessons.OrderBy(l => l.Order).FirstOrDefault();
+
+        var model = new CoursePlayerViewModel
+        {
+            Course = course,
+            CurrentLesson = currentLesson,
+            IsEnrolled = isEnrolled
+        };
+
+        return View(model);
+    }
+
+    [HttpPost]
+    [Authorize]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CompleteLesson(int lessonId, string slug)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        await _enrollmentService.TrackLessonProgressAsync(userId, lessonId);
+        return RedirectToAction("Watch", new { slug, lessonId });
+    }
 }

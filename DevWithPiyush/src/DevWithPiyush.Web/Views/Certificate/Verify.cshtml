@@ -1,0 +1,141 @@
+@model DevWithPiyush.Web.ViewModels.CertificateViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Certificate Verification - @Model.CertificateId</title>
+    
+    <!-- CSS Dependencies -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/certificate.css" asp-append-version="true" />
+</head>
+<body>
+
+    <!-- Floating Viewer Controls (Hidden on Print) -->
+    <div class="viewer-controls">
+        <button onclick="window.print();" class="btn-control btn-control-primary">
+            <i class="bi bi-printer"></i> Print / Save as PDF
+        </button>
+        <a href="/" class="btn-control btn-control-secondary">
+            <i class="bi bi-house"></i> Home
+        </a>
+    </div>
+
+    <!-- Certificate Wrapper -->
+    <div class="certificate-wrapper">
+        <div class="certificate-container">
+            
+            <!-- SVG Waves Background Decorations -->
+            <svg class="cert-bg-svg" viewBox="0 0 1000 700" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#fff0bd" />
+                        <stop offset="35%" stop-color="#d4af37" />
+                        <stop offset="70%" stop-color="#aa7c11" />
+                        <stop offset="100%" stop-color="#805a00" />
+                    </linearGradient>
+                    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#163961" />
+                        <stop offset="100%" stop-color="#071b33" />
+                    </linearGradient>
+                    <linearGradient id="darkBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#0b2240" />
+                        <stop offset="100%" stop-color="#040e1a" />
+                    </linearGradient>
+                </defs>
+
+                <!-- TOP LEFT DECORATION WAVES -->
+                <path d="M 0 0 L 380 0 C 290 100 160 150 0 150 Z" fill="url(#blueGrad)" />
+                <path d="M 0 150 C 160 150 290 100 380 0 L 400 0 C 310 120 170 170 0 170 Z" fill="url(#goldGrad)" />
+
+                <!-- TOP RIGHT DECORATION WAVES -->
+                <path d="M 1000 0 L 780 0 C 840 90 920 130 1000 130 Z" fill="url(#blueGrad)" />
+                <path d="M 1000 130 C 920 130 840 90 780 0 L 798 0 C 858 110 938 140 1000 140 Z" fill="url(#goldGrad)" />
+
+                <!-- BOTTOM LEFT DECORATION WAVES -->
+                <path d="M 0 700 L 0 540 C 100 570 200 640 280 700 Z" fill="url(#blueGrad)" />
+                <path d="M 0 540 C 100 570 200 640 280 700 L 300 700 C 220 635 110 570 0 540 Z" fill="url(#goldGrad)" />
+
+                <!-- BOTTOM RIGHT DECORATION WAVES -->
+                <path d="M 1000 700 L 1000 550 C 900 580 810 635 730 700 Z" fill="url(#blueGrad)" />
+                <path d="M 1000 550 C 900 580 810 635 730 700 L 750 700 C 825 635 915 590 1000 565 Z" fill="url(#goldGrad)" />
+            </svg>
+
+            <!-- Inner Gold Border Frame -->
+            <div class="cert-border-gold"></div>
+
+            <!-- Certificate Content Layout (Perfectly Centered Content) -->
+            <div class="cert-content-centered">
+                
+                <!-- Header Row: Company Details (Right) -->
+                <div class="cert-header-row">
+                    <div></div> <!-- Spacer for left alignment -->
+                    
+                    <div class="cert-company-name">
+                        <div class="company-name-main-2lines">
+                            <span class="line1">PIYUSH</span>
+                            <span class="line2">S-CRAFT SOLUTION</span>
+                        </div>
+                        <div class="company-msme-text">MSME Registered Enterprise (UDYAM-UP-17-0066990)</div>
+                        <div class="cert-id-under-company">Certificate ID: @Model.CertificateId</div>
+                    </div>
+                </div>
+
+                <!-- Central Content Block (Centered Horizontally & Vertically) -->
+                <div class="cert-body-centered-block">
+                    <h1 class="cert-title-prominent">CERTIFICATE</h1>
+                    <div class="cert-subtitle-ribbon-centered">
+                        <span class="ribbon-text">OF COMPLETION</span>
+                    </div>
+                    
+                    <div class="cert-main-text-block">
+                        <p class="cert-presentation-text">THIS CERTIFICATE IS PROUDLY PRESENTED TO</p>
+                        <h2 class="cert-student-name">@Model.StudentName.ToUpper()</h2>
+                        
+                        <!-- Gold Divider Line with Diamonds -->
+                        <div class="cert-gold-divider">
+                            <span class="diamond-left">&#9670;</span>
+                            <span class="divider-line"></span>
+                            <span class="diamond-right">&#9670;</span>
+                        </div>
+                        
+                        <p class="cert-description-text">
+                            has successfully completed the training program in <strong>@Model.CourseName.ToUpper()</strong> demonstrating outstanding dedication, technical proficiency, and practical excellence across all course assessments.
+                        </p>
+                        
+                        <p class="cert-conducted-text">Conducted by PIYUSH S-CRAFT SOLUTION during the program dates: @Model.ProgramDates</p>
+                    </div>
+                </div>
+
+                <!-- Bottom Row: Left Signature, Right QR Verification (Date Removed) -->
+                <div class="cert-bottom-row">
+                    <!-- Bottom-Left: Signature Section -->
+                    <div class="cert-bottom-col col-signature">
+                        <div class="signature-area">
+                            <div class="signature-cursive">Piyush Kumar</div>
+                        </div>
+                        <div class="field-line"></div>
+                        <div class="field-lbl">SIGNATURE</div>
+                    </div>
+
+                    <!-- Bottom-Right: QR Code Verification (Enlarged) -->
+                    <div class="cert-bottom-col col-qr-right">
+                        <div class="qr-code-wrap">
+                            <img class="verify-qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=@(Uri.EscapeDataString(Model.VerificationUrl))" alt="QR Code" />
+                        </div>
+                        <div class="field-lbl-qr">SCAN TO VERIFY CERTIFICATE</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

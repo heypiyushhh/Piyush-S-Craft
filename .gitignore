@@ -1,0 +1,35 @@
+## Visual Studio Build Outputs
+**/bin/
+**/obj/
+**/publish/
+**/out/
+
+## Visual Studio Cache/Config
+.vs/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+## Visual Studio Code settings
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+## SQLite databases & temporary files (Local DBs)
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+## User secrets & local configuration
+appsettings.local.json
+secrets.json
+.microsoft.dotnet.usersecrets/
+
+## OS Metadata
+.DS_Store
+Thumbs.db

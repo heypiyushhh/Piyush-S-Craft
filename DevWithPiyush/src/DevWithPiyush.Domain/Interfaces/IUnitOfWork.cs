@@ -13,5 +13,9 @@ public interface IUnitOfWork : IDisposable
     IRepository<ContactQuery> ContactQueries { get; }
     IRepository<Project> Projects { get; }
     IRepository<Skill> Skills { get; }
+    IRepository<Certificate> Certificates { get; }
+    IRepository<CourseSection> CourseSections { get; }
+    IRepository<Lesson> Lessons { get; }
+    IRepository<LessonProgress> LessonProgresses { get; }
     Task<int> SaveChangesAsync();
 }

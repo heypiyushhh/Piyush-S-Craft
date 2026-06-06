@@ -93,7 +93,7 @@ public class AccountController : Controller
         {
             await _userManager.AddToRoleAsync(user, "Student");
             await _signInManager.SignInAsync(user, isPersistent: false);
-            TempData["Success"] = "Welcome to DevWithPiyush! 🎉";
+            TempData["Success"] = "Welcome to PIYUSH S-CRAFT SOLUTION! 🎉";
             return RedirectToAction("Dashboard", "Student");
         }
 

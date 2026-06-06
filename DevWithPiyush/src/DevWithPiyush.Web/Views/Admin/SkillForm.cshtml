@@ -1,0 +1,67 @@
+@model SkillDto
+@{
+    ViewData["Title"] = Model.Id == 0 ? "Create Skill" : "Edit Skill";
+    ViewData["AdminPage"] = true;
+}
+
+<section class="page-header">
+    <div class="container">
+        <h1 class="page-title animate-slide-up">@(Model.Id == 0 ? "Create New Skill" : "Edit Skill")</h1>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card-custom">
+                    <form asp-action="SaveSkill" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="Id" />
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="form-group-custom mb-3">
+                            <label asp-for="Name" class="form-label-custom">Skill Name</label>
+                            <input asp-for="Name" class="form-control-custom" placeholder="e.g. C# / .NET" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group-custom mb-3">
+                            <label asp-for="Category" class="form-label-custom">Category</label>
+                            <input asp-for="Category" class="form-control-custom" placeholder="e.g. Backend, Frontend, DevOps" />
+                            <span asp-validation-for="Category" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <div class="form-group-custom">
+                                    <label asp-for="Proficiency" class="form-label-custom">Proficiency (0-100%)</label>
+                                    <input asp-for="Proficiency" type="number" class="form-control-custom" min="0" max="100" />
+                                    <span asp-validation-for="Proficiency" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group-custom">
+                                    <label asp-for="DisplayOrder" class="form-label-custom">Display Order</label>
+                                    <input asp-for="DisplayOrder" type="number" class="form-control-custom" />
+                                    <span asp-validation-for="DisplayOrder" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-primary-custom btn-lg">
+                                <i class="bi bi-check-lg me-1"></i> @(Model.Id == 0 ? "Create Skill" : "Save Changes")
+                            </button>
+                            <a asp-action="Skills" class="btn btn-outline-custom btn-lg">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

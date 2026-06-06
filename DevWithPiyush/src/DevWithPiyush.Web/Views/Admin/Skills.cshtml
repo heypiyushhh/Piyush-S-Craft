@@ -1,0 +1,72 @@
+@model IEnumerable<SkillDto>
+@{
+    ViewData["Title"] = "Manage Skills";
+    ViewData["AdminPage"] = true;
+}
+
+<section class="page-header">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="page-title animate-slide-up">Manage Skills</h1>
+            </div>
+            <a asp-action="CreateSkill" class="btn btn-primary-custom animate-fade-in">
+                <i class="bi bi-plus-lg me-1"></i> New Skill
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="card-custom">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Order</th>
+                            <th>Skill Name</th>
+                            <th>Category</th>
+                            <th>Proficiency</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var skill in Model)
+                        {
+                            <tr>
+                                <td>@skill.DisplayOrder</td>
+                                <td><strong>@skill.Name</strong></td>
+                                <td><span class="badge bg-secondary">@skill.Category</span></td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="progress flex-grow-1" style="height: 6px; min-width: 100px; background: var(--bg-primary);">
+                                            <div class="progress-bar" style="width: @skill.Proficiency%"></div>
+                                        </div>
+                                        <small>@skill.Proficiency%</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-1">
+                                        <a asp-action="EditSkill" asp-route-id="@skill.Id"
+                                           class="btn btn-sm btn-outline-custom" title="Edit Skill">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form asp-action="DeleteSkill" method="post"
+                                              onsubmit="return confirm('Are you sure you want to delete this skill?');">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@skill.Id" />
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

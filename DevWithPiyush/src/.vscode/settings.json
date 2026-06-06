@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/719b8cbd-9ddd-4e69-888e-1bec56f3357b/resourceGroups/piyush-rg/providers/Microsoft.Web/sites/devwithpiyush",
+    "appService.deploySubpath": "DevWithPiyush.Web"
+}

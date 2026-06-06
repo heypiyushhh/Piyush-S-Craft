@@ -33,10 +33,13 @@ public class Course
 
     public bool IsPublished { get; set; }
 
+    public bool IssuesCertificate { get; set; } = true;
+
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public DateTime? UpdatedAt { get; set; }
 
     // Navigation
     public virtual ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
+    public virtual ICollection<CourseSection> Sections { get; set; } = new List<CourseSection>();
 }

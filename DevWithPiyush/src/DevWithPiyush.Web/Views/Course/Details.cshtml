@@ -54,6 +54,56 @@
                         <h4 class="mb-3">About This Course</h4>
                         <p style="line-height: 1.8;">@Model.Course.Description</p>
                     </div>
+
+                    <div class="card-custom mt-4 animate-slide-up" style="animation-delay: 0.1s;">
+                        <h4 class="mb-4">Course Curriculum</h4>
+                        <div class="accordion" id="curriculumAccordion">
+                            @foreach (var cSection in Model.Course.Sections)
+                            {
+                                <div class="accordion-item mb-2 border shadow-sm rounded overflow-hidden">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#sec-@cSection.Id">
+                                            <div class="d-flex justify-content-between w-100 pe-3">
+                                                <span class="fw-bold">@cSection.Title</span>
+                                                <span class="text-muted small">@cSection.Lessons.Count Lessons</span>
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="sec-@cSection.Id" class="accordion-collapse collapse show">
+                                        <div class="accordion-body p-0">
+                                            <ul class="list-group list-group-flush">
+                                                @foreach (var lesson in cSection.Lessons)
+                                                {
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                                                        <span><i class="bi bi-play-circle me-2 text-primary"></i> @lesson.Title</span>
+                                                        @if (Model.IsEnrolled)
+                                                        {
+                                                            <a asp-action="Watch" asp-route-slug="@Model.Course.Slug" asp-route-lessonId="@lesson.Id" class="btn btn-sm btn-primary-custom px-3">Watch</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-muted" title="Enroll to watch">
+                                                                <i class="bi bi-lock-fill"></i>
+                                                            </span>
+                                                        }
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        @if (!Model.IsEnrolled)
+                        {
+                            <div class="text-center mt-4 p-3 bg-light rounded border border-dashed">
+                                <p class="mb-2 text-muted">Enroll in this course to unlock all lessons and start learning.</p>
+                                <button type="button" onclick="document.querySelector('#enroll-btn')?.scrollIntoView({behavior: 'smooth'})" class="btn btn-sm btn-outline-primary">
+                                    Unlock Now
+                                </button>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
 
@@ -86,7 +136,7 @@
                         <form asp-controller="Course" asp-action="Enroll" method="post">
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="courseId" value="@Model.Course.Id" />
-                            <button type="submit" class="btn btn-primary-custom btn-lg w-100">
+                            <button id="enroll-btn" type="submit" class="btn btn-primary-custom btn-lg w-100">
                                 Enroll Now <i class="bi bi-arrow-right"></i>
                             </button>
                         </form>
@@ -101,7 +151,7 @@
                     <div class="mt-4">
                         <div class="d-flex justify-content-between text-muted small mb-2">
                             <span><i class="bi bi-award me-1"></i> Certificate</span>
-                            <span>Yes</span>
+                            <span>@(Model.Course.IssuesCertificate ? "Yes" : "No")</span>
                         </div>
                         <div class="d-flex justify-content-between text-muted small mb-2">
                             <span><i class="bi bi-infinity me-1"></i> Lifetime Access</span>

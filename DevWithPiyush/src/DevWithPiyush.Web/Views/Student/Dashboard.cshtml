@@ -71,7 +71,7 @@
                                     @enrollment.Status
                                 </span>
                             </div>
-                            @if (enrollment.Status == EnrollmentStatus.Completed)
+                            @if (enrollment.Status == EnrollmentStatus.Completed && enrollment.IssuesCertificate)
                             {
                                 <a asp-controller="Student" asp-action="DownloadCertificate"
                                    asp-route-enrollmentId="@enrollment.Id"
@@ -114,6 +114,11 @@
                                 <span class="ms-2">| Completed: @enrollment.CompletedAt.Value.ToString("MMM dd, yyyy")</span>
                             }
                         </div>
+
+                        <a asp-controller="Course" asp-action="Watch" asp-route-slug="@enrollment.CourseSlug" 
+                           class="btn btn-primary-custom w-100 mt-3">
+                            <i class="bi bi-play-fill me-1"></i> Watch Course
+                        </a>
                     </div>
                 </div>
             }

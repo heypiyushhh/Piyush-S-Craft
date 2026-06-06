@@ -11,4 +11,10 @@ public interface ICourseService
     Task<CourseDto> CreateCourseAsync(CourseDto dto);
     Task UpdateCourseAsync(CourseDto dto);
     Task DeleteCourseAsync(int id);
+
+    // Curriculum Management
+    Task AddSectionAsync(int courseId, string title);
+    Task AddLessonAsync(int sectionId, string title, string? youtubeVideoId);
+    Task DeleteSectionAsync(int sectionId);
+    Task DeleteLessonAsync(int lessonId);
 }
