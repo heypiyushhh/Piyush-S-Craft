@@ -15,15 +15,17 @@ var builder = WebApplication.CreateBuilder(args);
 QuestPDF.Settings.License = LicenseType.Community;
 
 // ── Database ────────────────────────────────────────────────────
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+var connectionString =
+    Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING")
     ?? builder.Configuration["DATABASE_CONNECTION_STRING"]
-    ?? Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING")
+    ?? Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
     ?? builder.Configuration["DB_CONNECTION_STRING"]
-    ?? Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+    ?? builder.Configuration.GetConnectionString("DefaultConnection");
 
-if (string.IsNullOrEmpty(connectionString))
+if (string.IsNullOrWhiteSpace(connectionString))
 {
-    throw new InvalidOperationException("Connection string 'DefaultConnection' not found in configuration or environment variables.");
+    throw new InvalidOperationException(
+        "Connection string not found.");
 }
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
