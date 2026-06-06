@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://piyushkumar.site/</loc>
+  <lastmod>2026-05-03T12:54:24+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://piyushkumar.site/Course</loc>
+  <lastmod>2026-05-03T12:54:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://piyushkumar.site/Home/Contact</loc>
+  <lastmod>2026-05-03T12:54:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://piyushkumar.site/Account/Login</loc>
+  <lastmod>2026-05-03T12:54:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://piyushkumar.site/Account/Register</loc>
+  <lastmod>2026-05-03T12:54:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://piyushkumar.site/Course/Details?slug=docker-containerization</loc>
+  <lastmod>2026-05-03T12:54:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://piyushkumar.site/Course/Details?slug=azure-cloud-for-developers</loc>
+  <lastmod>2026-05-03T12:54:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://piyushkumar.site/Course/Details?slug=sql-server-database-design</loc>
+  <lastmod>2026-05-03T12:54:24+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://piyushkumar.site/Course/Details?slug=react-for-dotnet-developers</loc>
+  <lastmod>2026-05-03T12:54:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://piyushkumar.site/Course/Details?slug=aspnet-core-mvc-masterclass</loc>
+  <lastmod>2026-05-03T12:54:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://piyushkumar.site/Course/Details?slug=csharp-fundamentals</loc>
+  <lastmod>2026-05-03T12:54:24+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
+</urlset>

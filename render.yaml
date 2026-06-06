@@ -1,0 +1,31 @@
+# Render Infrastructure-as-Code Configuration
+# Reference: https://render.com/docs/yaml-spec
+
+services:
+  - type: web
+    name: dev-with-piyush-web
+    env: docker
+    plan: starter # Starter plan is recommended for .NET applications to handle memory footprints
+    dockerfilePath: Dockerfile
+    dockerContext: .
+    numInstances: 1
+    autoDeploy: true # Enable auto-deployment on git push
+
+    # Render polls this HTTP path during rolling deployments.
+    # The deployment succeeds only when this path returns a 200 OK.
+    # The root path '/' executes database queries for skills and courses, 
+    # serving as an integration check for both routing and DB connectivity.
+    healthCheckPath: /
+
+    # Service environment variables
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+
+      - key: ASPNETCORE_URLS
+        value: http://0.0.0.0:10000
+
+      # Secret connection string - user must populate this in the Render Dashboard
+      - key: DATABASE_CONNECTION_STRING
+        sync: false
+        description: "Azure SQL Connection String (Server=tcp:xyz...)"
