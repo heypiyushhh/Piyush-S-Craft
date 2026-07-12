@@ -2,6 +2,15 @@
 <html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8" />
+    <script>
+        (function() {
+            var path = window.location.pathname;
+            var isHome = path === '/' || path === '' || path.toLowerCase() === '/home' || path.toLowerCase() === '/home/index';
+            if (!isHome || localStorage.getItem('intro_seen') === 'true') {
+                document.documentElement.classList.add('intro-finished');
+            }
+        })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="PIYUSH S-CRAFT SOLUTION — Technology Solutions, Full-Stack Development, Training & Mentorship." />
 
@@ -11,7 +20,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -139,7 +148,7 @@
                 </div>
             </div>
             <hr class="border-secondary" />
-            <p class="text-center text-muted mb-0">&copy; @DateTime.Now.Year PIYUSH S-CRAFT SOLUTION. All rights reserved.</p>
+            <p class="text-center text-muted mb-0">&copy; @DateTime.Now.Year PIYUSH S-CRAFT SOLUTION. All rights reserved. | <a href="#" id="btn-replay-intro" class="text-decoration-none text-muted" onclick="localStorage.removeItem('intro_seen'); window.location.reload(); return false;" style="cursor: pointer; transition: color 0.2s;"><i class="bi bi-play-circle me-1"></i>Replay Intro</a></p>
         </div>
     </footer>
 

@@ -539,3 +539,36 @@ select.form-control-custom { cursor: pointer; }
     border-radius: 10px;  
     border: 1PX solid white; /* centers the image */
 }
+
+/* ── Cinematic Intro Page Transition ─────────────────────────── */
+html:not(.intro-finished) #hero,
+html:not(.intro-finished) .navbar,
+html:not(.intro-finished) .site-footer,
+html:not(.intro-finished) .cta-section,
+html:not(.intro-finished) section {
+    opacity: 0 !important;
+    transform: scale(0.96) translateY(5px);
+    pointer-events: none;
+}
+
+html:not(.intro-finished) body {
+    overflow: hidden !important; /* Lock scrolling during intro */
+    background-color: #000000 !important;
+}
+
+#hero, .navbar, .site-footer, .cta-section, section {
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.intro-finished #hero,
+html.intro-finished .navbar,
+html.intro-finished .site-footer,
+html.intro-finished .cta-section,
+html.intro-finished section {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+#btn-replay-intro:hover {
+    color: #ffffff !important;
+}

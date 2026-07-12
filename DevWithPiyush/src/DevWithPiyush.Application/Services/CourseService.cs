@@ -85,6 +85,7 @@ public class CourseService : ICourseService
             ShortDescription = dto.ShortDescription,
             Description = dto.Description,
             ImageUrl = dto.ImageUrl,
+            DemoVideoUrl = dto.DemoVideoUrl,
             Level = dto.Level,
             DurationHours = dto.DurationHours,
             Price = dto.Price,
@@ -109,6 +110,7 @@ public class CourseService : ICourseService
         course.ShortDescription = dto.ShortDescription;
         course.Description = dto.Description;
         course.ImageUrl = dto.ImageUrl;
+        course.DemoVideoUrl = dto.DemoVideoUrl;
         course.Level = dto.Level;
         course.DurationHours = dto.DurationHours;
         course.Price = dto.Price;
@@ -239,6 +241,7 @@ public class CourseService : ICourseService
         ShortDescription = c.ShortDescription,
         Description = c.Description,
         ImageUrl = c.ImageUrl,
+        DemoVideoUrl = c.DemoVideoUrl,
         Level = c.Level,
         DurationHours = c.DurationHours,
         Price = c.Price,

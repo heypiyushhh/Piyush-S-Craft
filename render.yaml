@@ -28,4 +28,4 @@ services:
       # Secret connection string - user must populate this in the Render Dashboard
       - key: DATABASE_CONNECTION_STRING
         sync: false
-        description: "Azure SQL Connection String (Server=tcp:xyz...)"
+        description: "PostgreSQL Connection String (postgresql://neondb_owner:...)"

@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using QuestPDF;
 using QuestPDF.Infrastructure;
 
+// Enable legacy timestamp behavior for Npgsql to avoid issues with DateTime kinds
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 // QuestPDF.Settings.License = QuestPDF.LicenseType.Community;
@@ -28,8 +31,54 @@ if (string.IsNullOrWhiteSpace(connectionString))
         "Connection string not found.");
 }
 
+// Convert postgres:// or postgresql:// URL to standard Npgsql connection string if necessary
+if (connectionString.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) ||
+    connectionString.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
+{
+    try
+    {
+        var uri = new Uri(connectionString);
+        var userInfo = uri.UserInfo.Split(':');
+        var username = userInfo[0];
+        var password = userInfo.Length > 1 ? userInfo[1] : "";
+        var host = uri.Host;
+        var port = uri.Port > 0 ? uri.Port : 5432;
+        var database = uri.AbsolutePath.TrimStart('/');
+        var sslMode = "Require";
+
+        if (!string.IsNullOrEmpty(uri.Query))
+        {
+            var query = uri.Query.TrimStart('?');
+            var parts = query.Split('&');
+            foreach (var part in parts)
+            {
+                var kv = part.Split('=');
+                if (kv.Length == 2 && kv[0].Equals("sslmode", StringComparison.OrdinalIgnoreCase))
+                {
+                    sslMode = kv[1].ToLower() switch
+                    {
+                        "require" => "Require",
+                        "disable" => "Disable",
+                        "allow" => "Allow",
+                        "prefer" => "Prefer",
+                        "verify-ca" => "VerifyCA",
+                        "verify-full" => "VerifyFull",
+                        _ => "Require"
+                    };
+                }
+            }
+        }
+
+        connectionString = $"Host={host};Port={port};Database={database};Username={username};Password={password};SSL Mode={sslMode};Trust Server Certificate=true;";
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error parsing PostgreSQL URL: {ex.Message}. Using original string.");
+    }
+}
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(
+    options.UseNpgsql(
         connectionString,
         b => b.EnableRetryOnFailure()
               .MigrationsAssembly("DevWithPiyush.Infrastructure")));
@@ -85,6 +134,14 @@ builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<ISkillService, SkillService>();
 
+// Configure Forwarded Headers to support Render reverse proxy
+builder.Services.Configure<Microsoft.AspNetCore.Builder.ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto;
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
+});
+
 // ── MVC ─────────────────────────────────────────────────────────
 builder.Services.AddControllersWithViews();
 builder.Services.AddAntiforgery(options =>
@@ -95,6 +152,8 @@ builder.Services.AddAntiforgery(options =>
 var app = builder.Build();
 
 // ── Middleware Pipeline ─────────────────────────────────────────
+app.UseForwardedHeaders();
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

@@ -25,6 +25,9 @@ public class Course
     [MaxLength(500)]
     public string? ImageUrl { get; set; }
 
+    [MaxLength(500)]
+    public string? DemoVideoUrl { get; set; }
+
     public CourseLevel Level { get; set; } = CourseLevel.Beginner;
 
     public int DurationHours { get; set; }

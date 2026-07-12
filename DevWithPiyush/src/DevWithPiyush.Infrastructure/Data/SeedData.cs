@@ -79,7 +79,8 @@ public static class SeedData
                     DurationHours = 40,
                     Price = 0,
                     IsPublished = true,
-                    ImageUrl = "/images/courses/csharp.svg"
+                    ImageUrl = "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=600&auto=format&fit=crop&q=60",
+                    DemoVideoUrl = "https://www.youtube.com/watch?v=GhQdlIFylQ8"
                 },
                 new()
                 {
@@ -91,7 +92,8 @@ public static class SeedData
                     DurationHours = 60,
                     Price = 999,
                     IsPublished = true,
-                    ImageUrl = "/images/courses/aspnet.svg"
+                    ImageUrl = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&auto=format&fit=crop&q=60",
+                    DemoVideoUrl = "https://www.youtube.com/watch?v=C5cnZ-gZy2I"
                 },
                 new()
                 {
@@ -103,7 +105,8 @@ public static class SeedData
                     DurationHours = 35,
                     Price = 799,
                     IsPublished = true,
-                    ImageUrl = "/images/courses/react.svg"
+                    ImageUrl = "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&auto=format&fit=crop&q=60",
+                    DemoVideoUrl = "https://www.youtube.com/watch?v=Ke90Tje7VS0"
                 },
                 new()
                 {
@@ -115,7 +118,8 @@ public static class SeedData
                     DurationHours = 30,
                     Price = 0,
                     IsPublished = true,
-                    ImageUrl = "/images/courses/sql.svg"
+                    ImageUrl = "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=600&auto=format&fit=crop&q=60",
+                    DemoVideoUrl = "https://www.youtube.com/watch?v=HXV3zeQKqGY"
                 },
                 new()
                 {
@@ -127,7 +131,8 @@ public static class SeedData
                     DurationHours = 45,
                     Price = 1499,
                     IsPublished = true,
-                    ImageUrl = "/images/courses/azure.svg"
+                    ImageUrl = "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=60",
+                    DemoVideoUrl = "https://www.youtube.com/watch?v=M576WGiYoj4"
                 },
                 new()
                 {
@@ -139,7 +144,8 @@ public static class SeedData
                     DurationHours = 25,
                     Price = 1299,
                     IsPublished = true,
-                    ImageUrl = "/images/courses/docker.svg"
+                    ImageUrl = "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=600&auto=format&fit=crop&q=60",
+                    DemoVideoUrl = "https://www.youtube.com/watch?v=3c-iQqyc6II"
                 }
             };
             await context.Courses.AddRangeAsync(courses);

@@ -3,6 +3,8 @@
     ViewData["Title"] = "Home";
 }
 
+<div id="intro-root"></div>
+
 <!-- Hero Section -->
 <section class="hero-section" id="hero">
     <div class="hero-bg-pattern"></div>
@@ -186,36 +188,11 @@
             <span class="section-tag">Training</span>
             <h2 class="section-title">Featured Courses</h2>
         </div>
-        <div class="row g-4">
-            @foreach (var course in Model.FeaturedCourses)
-            {
-                <div class="col-lg-4 col-md-6 scroll-reveal">
-                    <div class="course-card">
-                        <div class="course-image">
-                            <span class="course-level-badge @course.Level.ToString().ToLower()">@course.Level</span>
-                            <i class="bi bi-play-circle course-play-icon"></i>
-                        </div>
-                        <div class="course-body">
-                            <h5 class="course-title">@course.Title</h5>
-                            <p class="course-desc">@course.ShortDescription</p>
-                            <div class="course-meta">
-                                <span><i class="bi bi-clock"></i> @course.DurationHours hrs</span>
-                                <span><i class="bi bi-people"></i> @course.EnrollmentCount enrolled</span>
-                            </div>
-                            <div class="course-footer">
-                                <span class="course-price">
-                                    @(course.Price == 0 ? "Free" : "₹" + course.Price.ToString("N0"))
-                                </span>
-                                <a asp-controller="Course" asp-action="Details" asp-route-slug="@course.Slug"
-                                   class="btn btn-sm btn-outline-custom">
-                                    View Details <i class="bi bi-arrow-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
+        <script>
+            window.portfolioCourses = @Html.Raw(Json.Serialize(Model.FeaturedCourses));
+        </script>
+
+        <div id="courses-root"></div>
         <div class="text-center mt-5 scroll-reveal">
             <a asp-controller="Course" asp-action="Index" class="btn btn-primary-custom btn-lg">
                 View All Courses <i class="bi bi-arrow-right"></i>
@@ -239,3 +216,11 @@
         </div>
     </div>
 </section>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/intro.css" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/js/intro.js" asp-append-version="true"></script>
+}

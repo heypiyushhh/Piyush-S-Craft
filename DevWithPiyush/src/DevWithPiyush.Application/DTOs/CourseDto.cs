@@ -23,6 +23,9 @@ public class CourseDto
     [MaxLength(500)]
     public string? ImageUrl { get; set; }
 
+    [MaxLength(500)]
+    public string? DemoVideoUrl { get; set; }
+
     public CourseLevel Level { get; set; } = CourseLevel.Beginner;
 
     [Range(1, 500, ErrorMessage = "Duration must be between 1 and 500 hours.")]
