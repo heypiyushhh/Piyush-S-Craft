@@ -1,0 +1,86 @@
+# ==========================================
+# GitHub Actions Workflow: Keep Render Awake
+# ==========================================
+# Purpose: Automatically pings the Render web service health check endpoint
+# every 10 minutes to prevent the free-tier instance from sleeping.
+# Also supports manual execution via the GitHub actions UI.
+
+name: Keep Render Awake
+
+on:
+  schedule:
+    # Trigger the workflow every 10 minutes.
+    # Format: minute hour day-of-month month day-of-week
+    # Render free-tier suspends after 15 mins of inactivity, so 10 minutes is optimal.
+    - cron: '*/10 * * * *'
+  
+  # Allow manual triggering of the workflow from the Actions tab.
+  workflow_dispatch:
+
+jobs:
+  ping:
+    name: Ping Health Endpoint
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Execute the keep-alive ping using curl with retries and logging
+      - name: Send Keep-Alive Ping
+        run: |
+          # Retrieve target URL from GitHub repository secrets
+          URL="${{ secrets.SITE_URL }}/health"
+          
+          # Check if secret is populated
+          if [ -z "${{ secrets.SITE_URL }}" ]; then
+            echo "Error: SITE_URL secret is not configured in the repository."
+            exit 1
+          fi
+          
+          echo "Initiating keep-alive ping to: $URL"
+          
+          # Retry configuration parameters
+          MAX_RETRIES=3
+          RETRY_DELAY=5
+          ATTEMPT=1
+          
+          while [ $ATTEMPT -le $MAX_RETRIES ]; do
+            echo "Attempt $ATTEMPT of $MAX_RETRIES..."
+            
+            # Send GET request with the following options:
+            # -s: Silent mode (suppress progress bar and output)
+            # -L: Follow HTTP redirects
+            # -H: Set a custom User-Agent to identify the ping source
+            # -w: Write out custom performance and response metrics (HTTP code and total time)
+            # -o /dev/null: Redirect response body to null since we only care about headers and metrics
+            
+            RESPONSE=$(curl -s -L \
+              -H "User-Agent: GitHubActions-KeepAlive" \
+              -w "HTTP_STATUS:%{http_code}\nTIME_TOTAL:%{time_total}\n" \
+              -o /dev/null \
+              "$URL")
+            
+            # Extract HTTP status code and response time from output
+            HTTP_STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS" | cut -d':' -f2)
+            TIME_TOTAL=$(echo "$RESPONSE" | grep "TIME_TOTAL" | cut -d':' -f2)
+            
+            echo "HTTP Status Code: $HTTP_STATUS"
+            echo "Response Time: ${TIME_TOTAL} seconds"
+            
+            # Consider 200 OK as a successful health status code
+            if [ "$HTTP_STATUS" -eq 200 ]; then
+              echo "Keep-alive ping succeeded on attempt $ATTEMPT."
+              exit 0
+            else
+              echo "Warning: Attempt $ATTEMPT returned HTTP status code $HTTP_STATUS."
+            fi
+            
+            # Wait before the next attempt, if retries are remaining
+            if [ $ATTEMPT -lt $MAX_RETRIES ]; then
+              echo "Retrying in $RETRY_DELAY seconds..."
+              sleep $RETRY_DELAY
+            fi
+            
+            ATTEMPT=$((ATTEMPT + 1))
+          done
+          
+          echo "Error: All $MAX_RETRIES keep-alive attempts to $URL failed."
+          exit 1
