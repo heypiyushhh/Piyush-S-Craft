@@ -11,4 +11,4 @@ jobs:
     steps:
       - name: Ping Render App
         run: |
-          curl -s -f https://your-app.onrender.com > /dev/null || exit 1
+          curl -s -f https://piyushkumar.site/ > /dev/null || exit 1
