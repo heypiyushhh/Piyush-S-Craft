@@ -1,5 +1,7 @@
 # DevWithPiyush — ASP.NET Core MVC Platform
 
+[![Production CI Pipeline](https://github.com/heypiyushhh/Piyush-S-Craft/actions/workflows/ci.yml/badge.svg)](https://github.com/heypiyushhh/Piyush-S-Craft/actions/workflows/ci.yml)
+
 A production-ready ASP.NET Core MVC (.NET 8) platform using PostgreSQL database and configured for seamless deployment on Render.
 
 ---

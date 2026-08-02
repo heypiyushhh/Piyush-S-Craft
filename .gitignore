@@ -1,4 +1,4 @@
-## Visual Studio Build Outputs
+## Visual Studio & .NET Build Outputs
 **/bin/
 **/obj/
 **/publish/
@@ -10,6 +10,15 @@
 *.userosscache
 *.suo
 *.sln.docstates
+
+## Node.js & React Build Outputs
+**/node_modules/
+**/dist/
+**/.vite/
+**/coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 ## Visual Studio Code settings
 .vscode/*
@@ -29,6 +38,11 @@
 appsettings.local.json
 secrets.json
 .microsoft.dotnet.usersecrets/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 ## OS Metadata
 .DS_Store

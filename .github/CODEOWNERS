@@ -1,0 +1,18 @@
+# =========================================================================
+# Global Codeowners Policy
+# =========================================================================
+# Default owner for everything in the repository:
+* @heypiyushhh
+
+# Workflows & CI/CD Pipelines
+/.github/workflows/ @heypiyushhh
+
+# Backend Architecture (.NET / C#)
+/DevWithPiyush/ @heypiyushhh
+
+# Frontend Web Application (React / Vite / TypeScript)
+/intro-app/ @heypiyushhh
+
+# Infrastructure & Docker Settings
+/Dockerfile @heypiyushhh
+/render.yaml @heypiyushhh
