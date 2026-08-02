@@ -176,7 +176,7 @@ public class CourseService : ICourseService
     {
         if (string.IsNullOrWhiteSpace(input)) return null;
         input = input.Trim();
-        
+
         // If it's already just the ID (11 chars)
         if (input.Length == 11) return input;
 
@@ -193,7 +193,7 @@ public class CourseService : ICourseService
             var parts = input.Split("youtu.be/");
             if (parts.Length > 1) return parts[1].Split('?')[0];
         }
-        
+
         // handle youtube.com/shorts/...
         if (input.Contains("shorts/"))
         {
