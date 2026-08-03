@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 
-// SVG Icon components to ensure zero missing dependency issues and maximum crispness
+// Minimalist Monochrome SVG Icons
 const AcademicCapIcon: React.FC<{ className?: string }> = ({ className = 'w-5 h-5' }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147L12 14.6l7.74-4.453M12 4.5L2.25 10.125l9.75 5.625 9.75-5.625L12 4.5z" />
@@ -68,7 +68,6 @@ interface TimelineItem {
   description?: string;
   highlights?: string[];
   badges: { label: string; icon: React.ComponentType<{ className?: string }> }[];
-  accentColor: 'emerald' | 'cyan' | 'blue';
   icon: React.ComponentType<{ className?: string }>;
 }
 
@@ -95,7 +94,6 @@ const timelineData: TimelineItem[] = [
       { label: '🚀 Internship Completed', icon: BriefcaseIcon },
       { label: '💻 Full Stack Developer', icon: CodeBracketIcon },
     ],
-    accentColor: 'cyan',
     icon: BriefcaseIcon,
   },
   {
@@ -119,7 +117,6 @@ const timelineData: TimelineItem[] = [
       { label: '🎓 Diploma Completed', icon: AcademicCapIcon },
       { label: '💻 Full Stack Developer', icon: CommandLineIcon },
     ],
-    accentColor: 'emerald',
     icon: AcademicCapIcon,
   },
   {
@@ -135,7 +132,6 @@ const timelineData: TimelineItem[] = [
       { label: '📚 Continuous Learner', icon: BookOpenIcon },
       { label: '🚀 Industry Focused', icon: SparklesIcon },
     ],
-    accentColor: 'blue',
     icon: BookOpenIcon,
   },
 ];
@@ -143,7 +139,7 @@ const timelineData: TimelineItem[] = [
 export const EducationExperienceSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Scroll progress for animating the timeline connector line
+  // Scroll progress for animating monochrome timeline connector line
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start 80%', 'end 30%'],
@@ -161,9 +157,8 @@ export const EducationExperienceSection: React.FC = () => {
       id="education-experience"
       className="relative py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden text-slate-100 font-sans select-none"
     >
-      {/* Subtle glowing effects matching existing portfolio theme */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-emerald-500/10 rounded-full blur-[130px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-10 w-[450px] h-[450px] bg-cyan-500/10 rounded-full blur-[110px] pointer-events-none" />
+      {/* Subtle Black & White Glass Ambient Light */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-white/[0.03] rounded-full blur-[140px] pointer-events-none" />
 
       {/* Section Header */}
       <div className="relative text-center max-w-3xl mx-auto mb-20">
@@ -172,9 +167,9 @@ export const EducationExperienceSection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md text-xs font-mono text-emerald-400 mb-4 shadow-inner"
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md text-xs font-mono text-slate-300 mb-4 shadow-inner"
         >
-          <SparklesIcon className="w-4 h-4 text-emerald-400 animate-pulse" />
+          <SparklesIcon className="w-4 h-4 text-slate-300" />
           <span>CAREER & ACADEMICS</span>
         </motion.div>
 
@@ -185,7 +180,7 @@ export const EducationExperienceSection: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-6"
         >
-          Education & <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500">Experience</span>
+          Education & <span className="text-white underline decoration-white/20 underline-offset-8">Experience</span>
         </motion.h2>
 
         <motion.p
@@ -201,12 +196,11 @@ export const EducationExperienceSection: React.FC = () => {
 
       {/* Vertical Responsive Timeline */}
       <div className="relative max-w-5xl mx-auto">
-        {/* Animated Timeline Connector Line */}
-        {/* Mobile: Left (left-6). Tablet: Centered (md:left-1/2). Desktop: Alternating (lg:left-1/2). */}
-        <div className="absolute left-6 md:left-1/2 top-4 bottom-4 w-[2px] -translate-x-1/2 bg-slate-800/80 rounded-full overflow-hidden">
+        {/* Animated Pure White Timeline Connector Line */}
+        <div className="absolute left-6 md:left-1/2 top-4 bottom-4 w-[2px] -translate-x-1/2 bg-white/10 rounded-full overflow-hidden">
           <motion.div
             style={{ scaleY, originY: 0 }}
-            className="w-full h-full bg-gradient-to-b from-emerald-400 via-cyan-400 to-blue-500 shadow-[0_0_12px_rgba(52,211,153,0.8)]"
+            className="w-full h-full bg-white shadow-[0_0_12px_rgba(255,255,255,0.6)]"
           />
         </div>
 
@@ -214,28 +208,6 @@ export const EducationExperienceSection: React.FC = () => {
         <div className="space-y-12 lg:space-y-16">
           {timelineData.map((item, index) => {
             const isEven = index % 2 === 0;
-
-            const borderGlow =
-              item.accentColor === 'emerald'
-                ? 'hover:border-emerald-500/40 hover:shadow-emerald-500/10'
-                : item.accentColor === 'cyan'
-                ? 'hover:border-cyan-500/40 hover:shadow-cyan-500/10'
-                : 'hover:border-blue-500/40 hover:shadow-blue-500/10';
-
-            const badgeBg =
-              item.accentColor === 'emerald'
-                ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/20'
-                : item.accentColor === 'cyan'
-                ? 'bg-cyan-500/10 text-cyan-300 border-cyan-500/20'
-                : 'bg-blue-500/10 text-blue-300 border-blue-500/20';
-
-            const iconBg =
-              item.accentColor === 'emerald'
-                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.3)]'
-                : item.accentColor === 'cyan'
-                ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.3)]'
-                : 'bg-blue-500/10 text-blue-400 border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.3)]';
-
             const IconComponent = item.icon;
 
             return (
@@ -249,34 +221,34 @@ export const EducationExperienceSection: React.FC = () => {
                   isEven ? 'lg:flex-row-reverse' : ''
                 }`}
               >
-                {/* Timeline Icon Node Badge */}
+                {/* Black & White Timeline Icon Node Badge */}
                 <div className="absolute left-6 md:left-1/2 -translate-x-1/2 top-0 z-20 flex items-center justify-center">
                   <motion.div
-                    whileHover={{ scale: 1.15, rotate: 5 }}
+                    whileHover={{ scale: 1.15 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-                    className={`w-11 h-11 rounded-xl flex items-center justify-center border backdrop-blur-xl ${iconBg} transition-all duration-300`}
+                    className="w-11 h-11 rounded-xl flex items-center justify-center border border-white/20 bg-black/80 text-white backdrop-blur-xl shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-300 group-hover:border-white/50"
                   >
-                    <IconComponent className="w-5 h-5" />
+                    <IconComponent className="w-5 h-5 text-white" />
                   </motion.div>
                 </div>
 
                 {/* Empty desktop layout spacer */}
                 <div className="hidden lg:block w-1/2" />
 
-                {/* Glassmorphism Card */}
+                {/* Pure Black & White Glassmorphism Card */}
                 <div className="w-full lg:w-1/2 pl-16 md:pl-20 lg:pl-0 lg:px-8">
                   <motion.div
                     whileHover={{ y: -4 }}
                     transition={{ duration: 0.2 }}
-                    className={`group relative rounded-2xl bg-[#0a0a0c]/80 backdrop-blur-xl border border-white/[0.08] p-6 sm:p-8 transition-all duration-300 shadow-xl ${borderGlow}`}
+                    className="group relative rounded-2xl bg-black/70 backdrop-blur-xl border border-white/10 p-6 sm:p-8 transition-all duration-300 shadow-2xl hover:border-white/30 hover:shadow-[0_10px_30px_rgba(255,255,255,0.05)]"
                   >
-                    {/* Glass Accent Highlight */}
-                    <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent rounded-t-2xl" />
+                    {/* Glass White Highlight Line */}
+                    <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/25 to-transparent rounded-t-2xl" />
 
-                    {/* Metadata: Duration & Location */}
+                    {/* Duration & Location (Monochrome) */}
                     <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                      <span className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full">
-                        <CalendarIcon className="w-3.5 h-3.5" />
+                      <span className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-white bg-white/10 border border-white/20 px-3 py-1 rounded-full">
+                        <CalendarIcon className="w-3.5 h-3.5 text-slate-300" />
                         {item.duration}
                       </span>
                       {item.location && (
@@ -288,7 +260,7 @@ export const EducationExperienceSection: React.FC = () => {
                     </div>
 
                     {/* Title & Organization */}
-                    <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-emerald-300 transition-colors">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-slate-200 transition-colors">
                       {item.title}
                     </h3>
                     <p className="text-sm sm:text-base font-semibold text-slate-300 mt-1 mb-4 flex items-center gap-1.5">
@@ -307,15 +279,15 @@ export const EducationExperienceSection: React.FC = () => {
                       <ul className="space-y-2 mb-6 text-xs sm:text-sm text-slate-300">
                         {item.highlights.map((highlight, hIdx) => (
                           <li key={hIdx} className="flex items-start gap-2.5">
-                            <CheckCircleIcon className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                            <CheckCircleIcon className="w-4 h-4 text-white shrink-0 mt-0.5" />
                             <span className="leading-snug">{highlight}</span>
                           </li>
                         ))}
                       </ul>
                     )}
 
-                    {/* Small Achievement Badges */}
-                    <div className="flex flex-wrap gap-2 pt-2 border-t border-white/5">
+                    {/* Small Monochrome Badges */}
+                    <div className="flex flex-wrap gap-2 pt-2 border-t border-white/10">
                       {item.badges.map((badge, bIdx) => {
                         const BadgeIcon = badge.icon;
                         return (
@@ -323,9 +295,9 @@ export const EducationExperienceSection: React.FC = () => {
                             key={bIdx}
                             whileHover={{ scale: 1.06, y: -2 }}
                             whileTap={{ scale: 0.98 }}
-                            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium border backdrop-blur-sm transition-all duration-200 cursor-default ${badgeBg}`}
+                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-white/5 text-slate-200 border border-white/15 backdrop-blur-sm transition-all duration-200 cursor-default hover:bg-white/15 hover:text-white hover:border-white/30"
                           >
-                            <BadgeIcon className="w-3.5 h-3.5" />
+                            <BadgeIcon className="w-3.5 h-3.5 text-slate-300" />
                             <span>{badge.label}</span>
                           </motion.span>
                         );
