@@ -46,51 +46,42 @@ const CalendarIcon: React.FC<{ className?: string }> = ({ className = 'w-5 h-5' 
   </svg>
 );
 
-const CheckCircleIcon: React.FC<{ className?: string }> = ({ className = 'w-5 h-5' }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
-);
-
 const SparklesIcon: React.FC<{ className?: string }> = ({ className = 'w-5 h-5' }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
   </svg>
 );
 
-const RocketIcon: React.FC<{ className?: string }> = ({ className = 'w-5 h-5' }) => (
+const TerminalIcon: React.FC<{ className?: string }> = ({ className = 'w-5 h-5' }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-1.8a4.2 4.2 0 003.53-4.44h2.31zM9 13.5l-3-3m0 0l-2.25 2.25m2.25-2.25L3.75 6.75m14.25 3.75l3 3m0 0l2.25-2.25m-2.25 2.25l2.25 3.75M12 3a9 9 0 019 9c0 2.21-.8 4.24-2.12 5.8l-1.43-1.43A6.97 6.97 0 0019 12a7 7 0 10-14 0c0 1.6.54 3.08 1.45 4.27L5.02 17.7A8.96 8.96 0 013 12a9 9 0 019-9z" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" />
   </svg>
 );
 
-interface TimelineItem {
+interface MilestoneItem {
   id: string;
-  type: 'education' | 'experience';
-  title: string;
+  type: 'experience' | 'education';
+  command: string;
+  roleTitle: string;
   organization: string;
   location?: string;
   duration: string;
-  journeyHeading: string;
-  journeyDescription: string;
-  highlightsHeading: string;
-  highlights?: string[];
+  story: string;
+  highlights: string[];
   badges: { label: string; icon: React.ComponentType<{ className?: string }> }[];
-  icon: React.ComponentType<{ className?: string }>;
 }
 
-const timelineData: TimelineItem[] = [
+const milestonesData: MilestoneItem[] = [
   {
     id: 'exp-1',
     type: 'experience',
-    title: 'Software Developer Intern',
+    command: 'cat ~/experience/techwithmd_internship.log',
+    roleTitle: 'Software Developer Intern',
     organization: 'TechWithMD Solution Private Limited',
     location: 'Lucknow, UP',
     duration: '3 Months Internship',
-    journeyHeading: 'My Industry Journey & Experience During Internship',
-    journeyDescription:
-      'During my 3-month tenure at TechWithMD Solution, I immersed myself in real-world full-stack development. Working closely alongside senior engineers, I learned professional engineering workflows, production debugging, enterprise backend architecture, and seamless API integration. This hands-on experience bridged the gap between academic theory and enterprise-level software delivery.',
-    highlightsHeading: 'Key Responsibilities & Deliverables',
+    story:
+      'During my 3-month internship at TechWithMD Solution, I immersed myself in real-world full-stack development. Working closely with senior developers, I built ASP.NET Core applications, optimized SQL Server queries, integrated RESTful APIs, fixed production bugs, and implemented user authentication while following standard Git engineering workflows on client projects.',
     highlights: [
       'Developed ASP.NET Core applications',
       'Worked with SQL Server',
@@ -106,19 +97,17 @@ const timelineData: TimelineItem[] = [
       { label: '🚀 Internship Completed', icon: BriefcaseIcon },
       { label: '💻 Full Stack Developer', icon: CodeBracketIcon },
     ],
-    icon: BriefcaseIcon,
   },
   {
     id: 'edu-1',
     type: 'education',
-    title: 'Diploma in Computer Science & Engineering',
+    command: 'cat ~/education/diploma_computer_science.log',
+    roleTitle: 'Diploma in Computer Science & Engineering',
     organization: 'Government Polytechnic Mawanakhurd',
     location: 'Meerut, UP',
     duration: '2022 – 2025',
-    journeyHeading: 'Core Academic Foundation & Technical Skills',
-    journeyDescription:
-      'During these 3 years of rigorous technical training, I mastered the core pillars of computer science—ranging from Data Structures & Algorithms to Database Systems and Object-Oriented Software Design. I actively spent my college days building end-to-end full-stack applications using ASP.NET Core, C#, and SQL Server.',
-    highlightsHeading: 'Subjects Mastered & Technical Highlights',
+    story:
+      'Mastered core computer science principles over 3 years of intensive academic study. Built strong fundamentals in Data Structures, Database Systems, Software Engineering, ASP.NET, C#, and SQL Server while engineering multiple full-stack projects.',
     highlights: [
       'Learned Data Structures',
       'Database Management',
@@ -133,31 +122,32 @@ const timelineData: TimelineItem[] = [
       { label: '🎓 Diploma Completed', icon: AcademicCapIcon },
       { label: '💻 Full Stack Developer', icon: CommandLineIcon },
     ],
-    icon: AcademicCapIcon,
   },
   {
     id: 'edu-2',
     type: 'education',
-    title: 'Bachelor of Arts (B.A.)',
+    command: 'cat ~/education/bachelor_of_arts.log',
+    roleTitle: 'Bachelor of Arts (B.A.)',
     organization: 'P.G. College',
     location: 'Mawana, UP',
     duration: 'Currently Pursuing',
-    journeyHeading: 'Higher Education & Continuous Learning',
-    journeyDescription:
-      'Continuing higher education while dedicatedly sharpening software engineering expertise, full-stack .NET architectures, modern frontend technologies, and building software solutions for continuous professional growth.',
-    highlightsHeading: 'Focus Areas & Objectives',
+    story:
+      'Continuing higher education while focusing heavily on software engineering, full-stack .NET development, and continuous self-driven skill enhancement.',
+    highlights: [
+      'Focusing on Software Engineering',
+      'Full Stack .NET & React Ecosystem',
+      'Continuous Professional Growth',
+    ],
     badges: [
       { label: '📚 Continuous Learner', icon: BookOpenIcon },
       { label: '🚀 Industry Focused', icon: SparklesIcon },
     ],
-    icon: BookOpenIcon,
   },
 ];
 
 export const EducationExperienceSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Scroll progress for animating monochrome timeline connector line
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start 80%', 'end 30%'],
@@ -173,22 +163,22 @@ export const EducationExperienceSection: React.FC = () => {
     <section
       ref={containerRef}
       id="education-experience"
-      className="relative py-24 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto overflow-hidden text-slate-100 font-sans select-none"
+      className="relative py-28 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto overflow-hidden text-slate-100 font-sans select-none"
     >
-      {/* Black & White Glass Ambient Light */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-white/[0.03] rounded-full blur-[150px] pointer-events-none" />
+      {/* Background Subtle Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-white/[0.02] rounded-full blur-[160px] pointer-events-none" />
 
       {/* Section Header */}
-      <div className="relative text-center max-w-4xl mx-auto mb-20">
+      <div className="relative text-center max-w-3xl mx-auto mb-20">
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.05] border border-white/10 backdrop-blur-md text-xs font-mono text-slate-300 mb-4 shadow-inner"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.05] border border-white/10 text-xs font-mono text-slate-300 mb-4 shadow-inner"
         >
-          <SparklesIcon className="w-4 h-4 text-slate-300" />
-          <span>CAREER & ACADEMICS</span>
+          <TerminalIcon className="w-4 h-4 text-slate-300" />
+          <span>DEVELOPER LOGS & MILESTONES</span>
         </motion.div>
 
         <motion.h2
@@ -196,7 +186,7 @@ export const EducationExperienceSection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6"
+          className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-5"
         >
           Education & <span className="text-white underline decoration-white/20 underline-offset-8">Experience</span>
         </motion.h2>
@@ -206,135 +196,118 @@ export const EducationExperienceSection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-base sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed font-normal"
+          className="text-base sm:text-lg text-slate-400 font-normal leading-relaxed"
         >
           My academic journey and hands-on industry experience that built my foundation as a Full Stack .NET Developer.
         </motion.p>
       </div>
 
-      {/* Full Width Vertical Responsive Timeline */}
-      <div className="relative w-full mx-auto">
-        {/* Animated Pure White Timeline Connector Line */}
-        <div className="absolute left-6 md:left-1/2 top-4 bottom-4 w-[2px] -translate-x-1/2 bg-white/10 rounded-full overflow-hidden">
+      {/* Interactive Terminal Timeline Stream */}
+      <div className="relative pl-6 md:pl-10">
+        {/* Animated Left Timeline Spine Line */}
+        <div className="absolute left-2 md:left-4 top-2 bottom-2 w-[2px] bg-white/10 rounded-full overflow-hidden">
           <motion.div
             style={{ scaleY, originY: 0 }}
-            className="w-full h-full bg-white shadow-[0_0_15px_rgba(255,255,255,0.7)]"
+            className="w-full h-full bg-white shadow-[0_0_12px_rgba(255,255,255,0.7)]"
           />
         </div>
 
-        {/* Timeline Item Cards */}
-        <div className="space-y-14 lg:space-y-20">
-          {timelineData.map((item, index) => {
-            const isEven = index % 2 === 0;
-            const IconComponent = item.icon;
+        {/* Milestone Terminal Blocks */}
+        <div className="space-y-16">
+          {milestonesData.map((item, index) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.5, delay: index * 0.15 }}
+              className="relative group"
+            >
+              {/* Timeline Connector Dot Node */}
+              <div className="absolute -left-[23px] md:-left-[39px] top-6 w-5 h-5 rounded-full border-2 border-white bg-black flex items-center justify-center shadow-[0_0_10px_rgba(255,255,255,0.8)] z-10 transition-transform duration-300 group-hover:scale-125">
+                <div className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+              </div>
 
-            return (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
-                className={`relative flex flex-col lg:flex-row items-start ${
-                  isEven ? 'lg:flex-row-reverse' : ''
-                }`}
-              >
-                {/* Black & White Timeline Icon Node Badge */}
-                <div className="absolute left-6 md:left-1/2 -translate-x-1/2 top-0 z-20 flex items-center justify-center">
-                  <motion.div
-                    whileHover={{ scale: 1.2 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-                    className="w-12 h-12 rounded-xl flex items-center justify-center border border-white/30 bg-black/90 text-white backdrop-blur-xl shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-all duration-300 group-hover:border-white/60"
-                  >
-                    <IconComponent className="w-6 h-6 text-white" />
-                  </motion.div>
-                </div>
-
-                {/* Empty desktop layout spacer */}
-                <div className="hidden lg:block w-1/2" />
-
-                {/* Pure Black & White Glassmorphism Card (Full Width Utilized) */}
-                <div className="w-full lg:w-1/2 pl-16 md:pl-20 lg:pl-0 lg:px-10">
-                  <motion.div
-                    whileHover={{ y: -5 }}
-                    transition={{ duration: 0.2 }}
-                    className="group relative rounded-2xl bg-black/80 backdrop-blur-2xl border border-white/15 p-6 sm:p-10 transition-all duration-300 shadow-2xl hover:border-white/40 hover:shadow-[0_12px_40px_rgba(255,255,255,0.08)]"
-                  >
-                    {/* Glass White Highlight Line */}
-                    <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent rounded-t-2xl" />
-
-                    {/* Header Metadata */}
-                    <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-                      <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-mono font-medium text-white bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full">
-                        <CalendarIcon className="w-4 h-4 text-slate-300" />
-                        {item.duration}
-                      </span>
-                      {item.location && (
-                        <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-slate-400 font-mono">
-                          <MapPinIcon className="w-4 h-4 text-slate-500" />
-                          {item.location}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Title & Organization */}
-                    <h3 className="text-2xl sm:text-3xl font-extrabold text-white group-hover:text-slate-100 transition-colors">
-                      {item.title}
-                    </h3>
-                    <p className="text-base sm:text-lg font-semibold text-slate-300 mt-1 mb-6">
+              {/* Developer Terminal Code Window */}
+              <div className="rounded-xl border border-white/15 bg-[#09090b] shadow-2xl overflow-hidden transition-all duration-300 group-hover:border-white/40 group-hover:shadow-[0_10px_35px_rgba(255,255,255,0.05)]">
+                {/* Terminal Title Bar Header */}
+                <div className="flex items-center justify-between px-4 py-3 bg-white/[0.03] border-b border-white/10 font-mono text-xs text-slate-400">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-white/20 border border-white/30 inline-block" />
+                    <span className="w-3 h-3 rounded-full bg-white/15 border border-white/20 inline-block" />
+                    <span className="w-3 h-3 rounded-full bg-white/10 border border-white/10 inline-block" />
+                    <span className="ml-2 text-slate-300 font-semibold text-[11px] md:text-xs">
                       {item.organization}
-                    </p>
+                    </span>
+                  </div>
 
-                    {/* Journey Heading & Detailed Description */}
-                    <div className="mb-6 p-4 sm:p-5 rounded-xl bg-white/[0.03] border border-white/10">
-                      <h4 className="text-xs sm:text-sm uppercase tracking-wider font-mono font-semibold text-white mb-2 flex items-center gap-2">
-                        <RocketIcon className="w-4 h-4 text-slate-300" />
-                        {item.journeyHeading}
-                      </h4>
-                      <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-                        {item.journeyDescription}
-                      </p>
-                    </div>
-
-                    {/* Highlights Heading & Bullet Highlights */}
-                    {item.highlights && (
-                      <div className="mb-6">
-                        <h4 className="text-xs sm:text-sm uppercase tracking-wider font-mono font-semibold text-slate-400 mb-3">
-                          {item.highlightsHeading}
-                        </h4>
-                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm text-slate-200">
-                          {item.highlights.map((highlight, hIdx) => (
-                            <li key={hIdx} className="flex items-start gap-2.5 bg-white/5 border border-white/5 p-2 rounded-lg">
-                              <CheckCircleIcon className="w-4 h-4 text-white shrink-0 mt-0.5" />
-                              <span className="leading-snug">{highlight}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                  <div className="flex items-center gap-3">
+                    <span className="inline-flex items-center gap-1.5 text-[11px] text-white bg-white/10 px-2.5 py-0.5 rounded-full border border-white/15">
+                      <CalendarIcon className="w-3.5 h-3.5" />
+                      {item.duration}
+                    </span>
+                    {item.location && (
+                      <span className="hidden sm:inline-flex items-center gap-1 text-[11px] text-slate-400">
+                        <MapPinIcon className="w-3.5 h-3.5" />
+                        {item.location}
+                      </span>
                     )}
-
-                    {/* Small Achievement Badges */}
-                    <div className="flex flex-wrap gap-2.5 pt-4 border-t border-white/15">
-                      {item.badges.map((badge, bIdx) => {
-                        const BadgeIcon = badge.icon;
-                        return (
-                          <motion.span
-                            key={bIdx}
-                            whileHover={{ scale: 1.06, y: -2 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-white/10 text-white border border-white/20 backdrop-blur-sm transition-all duration-200 cursor-default hover:bg-white/20 hover:border-white/40"
-                          >
-                            <BadgeIcon className="w-4 h-4 text-slate-300" />
-                            <span>{badge.label}</span>
-                          </motion.span>
-                        );
-                      })}
-                    </div>
-                  </motion.div>
+                  </div>
                 </div>
-              </motion.div>
-            );
-          })}
+
+                {/* Terminal Body Content */}
+                <div className="p-6 md:p-8 font-mono">
+                  {/* CLI Command Shell prompt */}
+                  <div className="flex items-center gap-2 text-xs md:text-sm mb-4 text-slate-400 pb-3 border-b border-white/5">
+                    <span className="text-white font-bold">$</span>
+                    <span className="text-slate-200">{item.command}</span>
+                  </div>
+
+                  {/* Role Title */}
+                  <h3 className="text-2xl md:text-3xl font-sans font-bold text-white mb-4">
+                    {item.roleTitle}
+                  </h3>
+
+                  {/* Experience Story */}
+                  <p className="font-sans text-sm md:text-base text-slate-300 leading-relaxed mb-6">
+                    {item.story}
+                  </p>
+
+                  {/* Tech Deliverable Badges Grid */}
+                  <div className="mb-6">
+                    <div className="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-3">
+                      HIGHLIGHTS & DELIVERABLES:
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 font-sans text-xs">
+                      {item.highlights.map((h, i) => (
+                        <div key={i} className="flex items-center gap-2 p-2 rounded-lg bg-white/[0.03] border border-white/5 text-slate-300">
+                          <span className="w-1.5 h-1.5 rounded-full bg-white shrink-0" />
+                          <span>{h}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Achievement Badges Footer */}
+                  <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10 font-sans">
+                    {item.badges.map((b, i) => {
+                      const BadgeIcon = b.icon;
+                      return (
+                        <motion.span
+                          key={i}
+                          whileHover={{ scale: 1.05, y: -2 }}
+                          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-white/10 text-white border border-white/20 transition-all duration-200 hover:bg-white/20"
+                        >
+                          <BadgeIcon className="w-3.5 h-3.5" />
+                          <span>{b.label}</span>
+                        </motion.span>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
